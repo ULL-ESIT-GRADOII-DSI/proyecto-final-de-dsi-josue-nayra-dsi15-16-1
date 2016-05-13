@@ -25,8 +25,11 @@
         <li><a data-scroll data-options="easing: easeOutQuart" href="#mywork">My Work</a></li>
         <li><a data-scroll data-options="easing: easeOutQuart" href="#about">About</a></li>
         <li><a data-scroll data-options="easing: easeOutQuart" href="#skills">Skills</a></li>
+
         <li><a data-scroll data-options="easing: easeOutQuart" href="#contact">Contact</a></li>
         <li><a data-scroll data-options="easing: easeOutQuart" data-toggle="modal" data-target="#myModal">Login</a></li>
+
+        <li id="generar_mapa"><a data-scroll data-options="easing: easeOutQuart" href="#contact">Publica tu sendero</a></li>
       </ul>
     </div>
     <!--/.nav-collapse --> 
@@ -276,36 +279,52 @@
 <section id="contact">
 	<div class="container">
         <div class="row">
-            <h2 class="heading wow fadeInUp" data-wow-duration="0.8s" data-wow-delay="0.8s">Contact</h2>
+            <h2 class="heading wow fadeInUp" data-wow-duration="0.8s" data-wow-delay="0.8s">Publica tu sendero</h2>
             <div class="col-md-12">
             	<form role="form" id="contact-form" class="contact-form">
+                	
                 	<div class="row">
-                		<div class="col-md-6 wow bounceIn" data-wow-duration="1s" data-wow-delay="1s">
-                  		<div class="form-group">
-                            <input type="text" class="form-control" name="Name" autocomplete="off" id="Name" placeholder="Name">
-                  		</div>
-                  	</div>
-                    	<div class="col-md-6 wow bounceIn" data-wow-duration="1s" data-wow-delay="1s">
-                  		<div class="form-group">
-                            <input type="email" class="form-control" name="email" autocomplete="off" id="email" placeholder="E-mail">
-                  		</div>
-                  	</div>
-                  	</div>
-                  	<div class="row">
+                  		<div class="col-md-6 wow bounceIn" data-wow-duration="1s" data-wow-delay="1s">
+                    		<div class="form-group">
+                              <input type="text" class="form-control" name="nombre_mapa" autocomplete="off" id="nombre_mapa" placeholder="Nombre del mapa">
+                    		</div>
+
+                  		  <div class="form-group">
+                              <input type="email" class="form-control" name="email" autocomplete="off" id="email" placeholder="E-mail">
+                    	  </div>
+                    	  
+                  		  <div class="form-group">
+                            <textarea class="form-control textarea" rows="2" name="descripcion_mapa" id="descripcion_mapa" placeholder="Descripcion del mapa"></textarea>
+                  		  </div>
+                  		
+                    	</div>
+                      
+                        <div id="map" style="height: 400px;border-color:red" class="col-md-6 wow bounceIn" data-wow-duration="1s" data-wow-delay="1s">
+              
+                    	</div>
+                  </div>
+                  
+                  <div class="row" style="margin-top:10px;">
+                      <div class="col-md-6 wow bounceIn" data-wow-duration="1s" data-wow-delay="1s"></div>
+                      <div class="col-md-6 wow bounceIn" data-wow-duration="1s" data-wow-delay="1s">
+                        <button id="mostrar_camino" type="submit" class="btn main-btn wow bounceIn" data-wow-duration="1s" data-wow-delay="1s">Mostrar sendero</button>
+                        <button id="guardar_camino" type="submit" class="btn main-btn wow bounceIn" data-wow-duration="1s" data-wow-delay="1s">Guardar sendero</button>
+                      </div>
+                  </div>
+                  <!--div class="row">
                   		<div class="col-md-12 wow bounceIn" data-wow-duration="1s" data-wow-delay="1s">
                   		<div class="form-group">
                             <textarea class="form-control textarea" rows="3" name="Message" id="Message" placeholder="Message"></textarea>
                   		</div>
                   	</div>
-                    </div>
-                    <div class="row">
+                  </div-->
+                  <div class="row">
                     <div class="col-md-12">
-                  <button type="submit" class="btn main-btn pull-right wow bounceIn" data-wow-duration="1s" data-wow-delay="1s">Send a message</button>
+                      
+                    </div>
                   </div>
-                  </div>
-                </form>
-			</div>
-            
+            </form>
+			    </div>
         </div>
     </div>
 </section>
@@ -342,8 +361,7 @@
 </section>
 <a href="#" class="back-to-top"><i class="mdicon up"></i></a>
 
-    <!-- Bootstrap core JavaScript
-        ================================================== --> 
+    <!-- Bootstrap core JavaScript--> 
     <!-- Placed at the end of the document so the pages load faster --> 
     <script src="assets/js/jquery.min.js"></script> 
     <script src="assets/js/bootstrap.min.js"></script>
