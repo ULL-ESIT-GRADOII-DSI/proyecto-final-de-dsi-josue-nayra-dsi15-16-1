@@ -29,6 +29,43 @@ function generar_mapa()
   });
 }
 
+function generar_linea_sendero(coordenadas, map)
+{
+  var flightPath = new google.maps.Polyline({
+    path: coordenadas,
+    geodesic: true,
+    strokeColor: '#FF0000',
+    strokeOpacity: 1.0,
+    strokeWeight: 2
+  });
+
+  flightPath.setMap(map);
+  clearMarkers();
+}
+
+function setMapOnAll(map) {
+  for (var i = 1; i < markers.length-1; i++) {
+    markers[i].setMap(map);
+  }
+}
+
+function clearMarkers() {
+  setMapOnAll(null);
+}
+
+  // Adds a marker to the map.
+function addMarker(location, map) {
+  // Add the marker at the clicked location, and add the next-available label
+  // from the array of alphabetical characters.
+  console.log("Location:"+location);
+  var marker = new google.maps.Marker({
+    position: location,
+    label: labels[labelIndex++ % labels.length],
+    map: map
+  });
+  markers.push(marker);
+}
+
 
 $(document).ready(() => {
     //Hacemos la lectura del JSON
@@ -43,13 +80,13 @@ $(document).ready(() => {
     $("#mostrar_camino").click(function()
     {
         console.log("Mostrando camino");
-        /*console.log("Camino:"+markers);
+        console.log("Camino:"+markers);
         $.each(markers,function(key,value)
         {
           console.log("Key:"+key+",Value:"+value.position);
           flightPlanCoordinates.push(value.position);
         });
-        generar_linea_sendero(flightPlanCoordinates,map);*/
+        generar_linea_sendero(flightPlanCoordinates,map);
      });
      $("#guardar_camino").click(function(event)
      {

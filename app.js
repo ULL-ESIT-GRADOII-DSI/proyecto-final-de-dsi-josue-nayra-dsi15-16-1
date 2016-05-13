@@ -32,7 +32,7 @@ app.use(express.static(__dirname + '/public'));
 
 app.get('/', (request, response) => {     
   //console.log("Accediendo a index");
-    response.render('index', {title: "Senderos LaPalma"});
+    response.render('index', {title: "Senderos LaPalma", title1: "La Palma se siente", title2: "Descubre nuestros mejores senderos"});
 });
 
 
