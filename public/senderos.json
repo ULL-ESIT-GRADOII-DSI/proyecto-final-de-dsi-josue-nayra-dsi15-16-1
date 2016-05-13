@@ -1,0 +1,7 @@
+{
+"Senderos": [
+{ "Latitud": -17.7646010402533 , "Longitud": 28.683520820291601, "Nombre": "Mapa1"}, 
+{ "Latitud": -17.764380609969599 , "Longitud": 28.683696720320999, "Nombre": "Mapa2"}, 
+{ "Latitud": -17.764340909980401, "Longitud": 28.683732280267201, "Nombre": "Mapa3" }
+]
+}
