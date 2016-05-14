@@ -29,6 +29,7 @@ function generar_mapa()
   });
 }
 
+
 function generar_linea_sendero(coordenadas, map)
 {
   var flightPath = new google.maps.Polyline({
@@ -68,6 +69,7 @@ function addMarker(location, map) {
 
 
 $(document).ready(() => {
+        
     //Hacemos la lectura del JSON
     //$.get("senderos.json", botones_ejemplos, 'json');
     $("#generar_mapa").click(function()
@@ -76,14 +78,9 @@ $(document).ready(() => {
         console.log("Generando mapa");
         generar_mapa();
     });
-       
-    $("#mostrar_camino").click(function()
-    {
-
-     });
      
-     $("#guardar_camino").click(function(event)
-     {
+    $("#guardar_camino").click(function(event)
+    {
         console.log("Guardando camino");
         event.preventDefault();
         
@@ -106,6 +103,58 @@ $(document).ready(() => {
             console.log("Data_respuesta:"+data_respuesta);
         });*/
      });
+    
+      $('.modal-footer button').click(function(){
+      		var button = $(this);
+      
+      		if ( button.attr("data-dismiss") != "modal" ){
+      			var inputs = $('form input');
+      			var title = $('.modal-title');
+      			var progress = $('.progress');
+      			var progressBar = $('.progress-bar');
+      
+      			inputs.attr("disabled", "disabled");
+      
+      			button.hide();
+      
+      			progress.show();
+      
+      			progressBar.animate({width : "100%"}, 100);
+      
+      			progress.delay(1000)
+      					.fadeOut(600);
+      
+      			button.text("Close")
+      					.removeClass("btn-primary")
+      					.addClass("btn-success")
+          				.blur()
+      					.delay(1600)
+      					.fadeIn(function(){
+      						title.text("Log in is successful");
+      						button.attr("data-dismiss", "modal");
+      					});
+      		}
+      	});
+
+      $('#myModal').on('hidden.bs.modal', function (e) {
+      		var inputs = $('form input');
+      		var title = $('.modal-title');
+      		var progressBar = $('.progress-bar');
+      		var button = $('.modal-footer button');
+      
+      		inputs.removeAttr("disabled");
+      
+      		title.text("Log in");
+      
+      		progressBar.css({ "width" : "0%" });
+      
+      		button.removeClass("btn-success")
+      				.addClass("btn-primary")
+      				.text("Ok")
+      				.removeAttr("data-dismiss");
+                      
+      });
 });
+
 })();
 
