@@ -24,6 +24,8 @@
     "ejs": "*",
     "express": "~3.2.6",
     "express-ejs-layouts": "~1.1.0",
+    "file-system": "^2.2.1",
+    "fs": "0.0.2",
     "jquery": "*",
     "mongoose": "^4.4.12",
     "underscore": "*",

@@ -9,7 +9,7 @@ var markers = [];
 var flightPlanCoordinates = [];
 var flightPath;
 var puntos_intermedios = [];
-var user_actual = "Josue";
+var user_actual;
 function generar_mapa()
 {
   map = new google.maps.Map(document.getElementById('map'), {
@@ -79,7 +79,13 @@ $(document).ready(() => {
         console.log("Generando mapa");
         generar_mapa();
     });
-     
+    
+    $("#subir_imagen").click(function(event)
+    {
+      event.preventDefault();
+    
+    });
+    
     $("#guardar_camino").click(function(event)
     {
         console.log("Guardando camino");
@@ -100,9 +106,11 @@ $(document).ready(() => {
         
         console.log("Puntos sendero:"+puntos_sendero);
         
-        /*$.get("/nuevo_camino",{usuario: user_actual, nombre_mapa: $("#nombre_mapa").val(), descripcion_mapa: $("#descripcion_mapa").val(), puntos: puntos_sendero}, data_respuesta => {
+        console.log("User_actual:"+user_actual);
+        
+        $.get("/nuevo_camino",{usuario: user_actual, nombre_mapa: $("#nombre_mapa").val(), descripcion_mapa: $("#descripcion_mapa").val(), puntos: puntos_sendero}, data_respuesta => {
             console.log("Data_respuesta:"+data_respuesta);
-        });*/
+        });
      });
     
       $('.modal-footer button').click(function(){
@@ -114,6 +122,8 @@ $(document).ready(() => {
                 console.log("Data_respuesta:"+data_respuesta);
                 console.log("Id del usuario logueado:"+data_respuesta.id_usuario);
                 console.log("Mensaje de respuesta:"+data_respuesta.mensaje_respuesta_login);
+                user_actual = data_respuesta.id_usuario;
+                
               if ( button.attr("data-dismiss") != "modal" ){
           			var inputs = $('form input');
           			var title = $('.modal-title');
