@@ -21,7 +21,7 @@
 }
 .input-group-addon {
     color: #fff;
-    background: #3276B1;
+    background: #0B6121;
 }
 
 /* /Login  ************/
@@ -140,10 +140,10 @@ Image credits: unsplash.com
   background-image: url(../images/caldera.jpg); 
 }
 .fade-carousel .slides .slide-2 {
-  background-image: url(../images/roque.jpg);
+  background-image: url(../images/La-Palma.jpg);
 }
 .fade-carousel .slides .slide-3 {
-  background-image: url(../images/marnubes.jpg);
+  background-image: url(../images/home_00.png);
 }
 
 /********************************/
