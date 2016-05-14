@@ -9,7 +9,7 @@ var markers = [];
 var flightPlanCoordinates = [];
 var flightPath;
 var puntos_intermedios = [];
-
+var user_actual = "Josue";
 function generar_mapa()
 {
   map = new google.maps.Map(document.getElementById('map'), {
@@ -79,6 +79,14 @@ $(document).ready(() => {
        
     $("#mostrar_camino").click(function()
     {
+
+     });
+     
+     $("#guardar_camino").click(function(event)
+     {
+        console.log("Guardando camino");
+        event.preventDefault();
+        
         console.log("Mostrando camino");
         console.log("Camino:"+markers);
         $.each(markers,function(key,value)
@@ -87,12 +95,14 @@ $(document).ready(() => {
           flightPlanCoordinates.push(value.position);
         });
         generar_linea_sendero(flightPlanCoordinates,map);
-     });
-     $("#guardar_camino").click(function(event)
-     {
-        console.log("Guardando camino");
-        event.preventDefault();
-        /*$.get("/nuevo_camino",{usuario: "Josue", puntos: JSON.stringify(puntos_intermedios)}, data_respuesta => {
+        var puntos_sendero = JSON.stringify(puntos_intermedios);
+        //puntos_sendero = JSON.parse(puntos_sendero);
+        //var origen_sendero = puntos_sendero[0].latitud;
+        //var destino_sendero = puntos_sendero[puntos_sendero.length-1];
+        
+        console.log("Puntos sendero:"+puntos_sendero);
+        
+        /*$.get("/nuevo_camino",{usuario: user_actual, nombre_mapa: $("#nombre_mapa").val(), descripcion_mapa: $("#descripcion_mapa").val(), puntos: puntos_sendero}, data_respuesta => {
             console.log("Data_respuesta:"+data_respuesta);
         });*/
      });
