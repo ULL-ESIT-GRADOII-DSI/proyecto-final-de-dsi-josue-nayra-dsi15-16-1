@@ -9,7 +9,7 @@ var markers = [];
 var flightPlanCoordinates = [];
 var flightPath;
 var puntos_intermedios = [];
-
+var user_actual = "Josue";
 function generar_mapa()
 {
   map = new google.maps.Map(document.getElementById('map'), {
@@ -29,6 +29,45 @@ function generar_mapa()
   });
 }
 
+
+function generar_linea_sendero(coordenadas, map)
+{
+  var flightPath = new google.maps.Polyline({
+    path: coordenadas,
+    geodesic: true,
+    strokeColor: '#FF0000',
+    strokeOpacity: 1.0,
+    strokeWeight: 2
+  });
+
+  flightPath.setMap(map);
+  clearMarkers();
+}
+
+function setMapOnAll(map) {
+  for (var i = 1; i < markers.length-1; i++) {
+    markers[i].setMap(map);
+  }
+}
+
+function clearMarkers() {
+  setMapOnAll(null);
+}
+
+  // Adds a marker to the map.
+function addMarker(location, map) {
+  // Add the marker at the clicked location, and add the next-available label
+  // from the array of alphabetical characters.
+  console.log("Location:"+location);
+  var marker = new google.maps.Marker({
+    position: location,
+    label: labels[labelIndex++ % labels.length],
+    map: map
+  });
+  markers.push(marker);
+}
+
+
 $(document).ready(() => {
         
     //Hacemos la lectura del JSON
@@ -39,93 +78,83 @@ $(document).ready(() => {
         console.log("Generando mapa");
         generar_mapa();
     });
-       
-    $("#mostrar_camino").click(function()
+     
+    $("#guardar_camino").click(function(event)
     {
+        console.log("Guardando camino");
+        event.preventDefault();
+        
         console.log("Mostrando camino");
-        /*console.log("Camino:"+markers);
+        console.log("Camino:"+markers);
         $.each(markers,function(key,value)
         {
           console.log("Key:"+key+",Value:"+value.position);
           flightPlanCoordinates.push(value.position);
         });
-        generar_linea_sendero(flightPlanCoordinates,map);*/
-     });
-     $("#guardar_camino").click(function(event)
-     {
-        console.log("Guardando camino");
-        event.preventDefault();
-        /*$.get("/nuevo_camino",{usuario: "Josue", puntos: JSON.stringify(puntos_intermedios)}, data_respuesta => {
+        generar_linea_sendero(flightPlanCoordinates,map);
+        var puntos_sendero = JSON.stringify(puntos_intermedios);
+        //puntos_sendero = JSON.parse(puntos_sendero);
+        //var origen_sendero = puntos_sendero[0].latitud;
+        //var destino_sendero = puntos_sendero[puntos_sendero.length-1];
+        
+        console.log("Puntos sendero:"+puntos_sendero);
+        
+        /*$.get("/nuevo_camino",{usuario: user_actual, nombre_mapa: $("#nombre_mapa").val(), descripcion_mapa: $("#descripcion_mapa").val(), puntos: puntos_sendero}, data_respuesta => {
             console.log("Data_respuesta:"+data_respuesta);
         });*/
      });
-        
-        
-       // Búsqueda de usuarios
-       $("#buscar_usuario").click( (event) => {
-          event.preventDefault();
-          $.get('/buscar/'+$("#nombre_usuario").val(),
-            { usuario: $("nombre_usuario").val()},
-            botones_ejemplos,
-            'json'
-          );
-        });
-    });
     
-//--------------------------------------------------------------------------------------------    
-    
-    $('.modal-footer button').click(function(){
-		var button = $(this);
+      $('.modal-footer button').click(function(){
+      		var button = $(this);
+      
+      		if ( button.attr("data-dismiss") != "modal" ){
+      			var inputs = $('form input');
+      			var title = $('.modal-title');
+      			var progress = $('.progress');
+      			var progressBar = $('.progress-bar');
+      
+      			inputs.attr("disabled", "disabled");
+      
+      			button.hide();
+      
+      			progress.show();
+      
+      			progressBar.animate({width : "100%"}, 100);
+      
+      			progress.delay(1000)
+      					.fadeOut(600);
+      
+      			button.text("Close")
+      					.removeClass("btn-primary")
+      					.addClass("btn-success")
+          				.blur()
+      					.delay(1600)
+      					.fadeIn(function(){
+      						title.text("Log in is successful");
+      						button.attr("data-dismiss", "modal");
+      					});
+      		}
+      	});
 
-		if ( button.attr("data-dismiss") != "modal" ){
-			var inputs = $('form input');
-			var title = $('.modal-title');
-			var progress = $('.progress');
-			var progressBar = $('.progress-bar');
-
-			inputs.attr("disabled", "disabled");
-
-			button.hide();
-
-			progress.show();
-
-			progressBar.animate({width : "100%"}, 100);
-
-			progress.delay(1000)
-					.fadeOut(600);
-
-			button.text("Close")
-					.removeClass("btn-primary")
-					.addClass("btn-success")
-    				.blur()
-					.delay(1600)
-					.fadeIn(function(){
-						title.text("Log in is successful");
-						button.attr("data-dismiss", "modal");
-					});
-		}
-	});
-
-	$('#myModal').on('hidden.bs.modal', function (e) {
-		var inputs = $('form input');
-		var title = $('.modal-title');
-		var progressBar = $('.progress-bar');
-		var button = $('.modal-footer button');
-
-		inputs.removeAttr("disabled");
-
-		title.text("Log in");
-
-		progressBar.css({ "width" : "0%" });
-
-		button.removeClass("btn-success")
-				.addClass("btn-primary")
-				.text("Ok")
-				.removeAttr("data-dismiss");
-                
-	});
-    
-//--------------------------------------------------------------------------------------------    
+      $('#myModal').on('hidden.bs.modal', function (e) {
+      		var inputs = $('form input');
+      		var title = $('.modal-title');
+      		var progressBar = $('.progress-bar');
+      		var button = $('.modal-footer button');
+      
+      		inputs.removeAttr("disabled");
+      
+      		title.text("Log in");
+      
+      		progressBar.css({ "width" : "0%" });
+      
+      		button.removeClass("btn-success")
+      				.addClass("btn-primary")
+      				.text("Ok")
+      				.removeAttr("data-dismiss");
+                      
+      });
+});
 
 })();
 
