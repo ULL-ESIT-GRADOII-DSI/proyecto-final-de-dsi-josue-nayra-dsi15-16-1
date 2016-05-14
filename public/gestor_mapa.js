@@ -72,6 +72,7 @@ $(document).ready(() => {
         
     //Hacemos la lectura del JSON
     //$.get("senderos.json", botones_ejemplos, 'json');
+    
     $("#generar_mapa").click(function()
     {
         //initMap(origen,destino);    
@@ -106,34 +107,43 @@ $(document).ready(() => {
     
       $('.modal-footer button').click(function(){
       		var button = $(this);
-      
-      		if ( button.attr("data-dismiss") != "modal" ){
-      			var inputs = $('form input');
-      			var title = $('.modal-title');
-      			var progress = $('.progress');
-      			var progressBar = $('.progress-bar');
-      
-      			inputs.attr("disabled", "disabled");
-      
-      			button.hide();
-      
-      			progress.show();
-      
-      			progressBar.animate({width : "100%"}, 100);
-      
-      			progress.delay(1000)
-      					.fadeOut(600);
-      
-      			button.text("Close")
-      					.removeClass("btn-primary")
-      					.addClass("btn-success")
-          				.blur()
-      					.delay(1600)
-      					.fadeIn(function(){
-      						title.text("Log in is successful");
-      						button.attr("data-dismiss", "modal");
-      					});
-      		}
+          
+          console.log("Nombre:"+$("#uLogin").val());
+          console.log("Password:"+$("#uPassword").val());
+          $.get("/login",{nombre_usuario: $("#uLogin").val(), password_usuario: $("#uPassword").val()}, data_respuesta => {
+                console.log("Data_respuesta:"+data_respuesta);
+                console.log("Id del usuario logueado:"+data_respuesta.id_usuario);
+                console.log("Mensaje de respuesta:"+data_respuesta.mensaje_respuesta_login);
+              if ( button.attr("data-dismiss") != "modal" ){
+          			var inputs = $('form input');
+          			var title = $('.modal-title');
+          			var progress = $('.progress');
+          			var progressBar = $('.progress-bar');
+          
+          			inputs.attr("disabled", "disabled");
+          
+          			button.hide();
+          
+          			progress.show();
+          
+          			progressBar.animate({width : "100%"}, 100);
+          
+          			progress.delay(1000)
+          					.fadeOut(600);
+          
+          			button.text("Close")
+          					.removeClass("btn-primary")
+          					.addClass("btn-success")
+              				.blur()
+          					.delay(1600)
+          					.fadeIn(function(){
+          						title.text(data_respuesta.mensaje_respuesta_login);
+          						button.attr("data-dismiss", "modal");
+          					});
+          		}
+            
+          });
+      	
       	});
 
       $('#myModal').on('hidden.bs.modal', function (e) {
@@ -144,7 +154,7 @@ $(document).ready(() => {
       
       		inputs.removeAttr("disabled");
       
-      		title.text("Log in");
+      		title.text("Inicio de sesion");
       
       		progressBar.css({ "width" : "0%" });
       

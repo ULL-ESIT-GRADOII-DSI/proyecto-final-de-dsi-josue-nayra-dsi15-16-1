@@ -35,6 +35,31 @@ app.get('/', (request, response) => {
     response.render('index', {title: "Senderos LaPalma", title1: "La Palma se siente", title2: "Descubre nuestros mejores senderos"});
 });
 
+app.get('/login',(request, response) => {
+    console.log("Datos recibidos en el servidor:");
+    console.log("Nombre de usuario:"+request.query.nombre_usuario);
+    console.log("Password de usuario:"+request.query.password_usuario);
+    User.find({nombre: request.query.nombre_usuario}, function(err, data)
+    {
+        if(err)
+        {
+            console.error("Se ha producido un error->"+err);
+        }
+        else
+        {
+            if(data.length > 0)
+            {
+                response.send({id_usuario: data[0]._id, mensaje_respuesta_login: "Usuario correcto"});    
+            }
+            else
+            {
+                response.send({id_usuario: -1, mensaje_respuesta_login: "Usuario no encontrado"});   
+            }
+        }
+    });
+    
+});
+
 app.get('/nuevo_camino',(request, response) => { 
     console.log("Accediendo a ruta");
     console.log("Usuario:"+request.query.usuario);
