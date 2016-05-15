@@ -16,7 +16,7 @@ const senderosTemplate = `
 
     <div class='col-md-4 col-sm-6 wow bounceIn' data-wow-duration='1s' data-wow-delay='1s'>
         <a href="#contact" data-target='#portfolio2' class='thumbnail hcaption'>
-              <img src='assets/images/portfolio/portfolio2-thumb.jpg' alt='Portfolio' title='Desktop Apps' />
+              <img src='assets/images/caminante.jpg' alt='Portfolio' title='Desktop Apps' />
               <p class='senderos'><%= sendero.nombre %></p>
         </a>
     </div>
@@ -172,19 +172,6 @@ $(document).ready(() => {
         generar_mapa();
     });
     
-    // $("#nuestros_senderos > a").click(function(event){
-    //   event.preventDefault();
-    //   console.log("entrando en nuestros_senderos...");
-    //   $("#publicar").css("display","none");
-    //   $("#mostrar").show();
-    // });
-    
-    $("#subir_imagen").click(function(event)
-    {
-      event.preventDefault();
-    
-    });
-    
     $("#hacia_mywork").click(function(event)
     {
       event.preventDefault();
@@ -236,17 +223,12 @@ $(document).ready(() => {
           			var progressBar = $('.progress-bar');
           
           			inputs.attr("disabled", "disabled");
-          
           			button.hide();
-          
           			progress.show();
-          
           			progressBar.animate({width : "100%"}, 100);
-          
           			progress.delay(1000)
           					.fadeOut(600);
-          
-          			button.text("Close")
+          			button
           					.removeClass("btn-primary")
           					.addClass("btn-success")
               				.blur()
