@@ -15,7 +15,7 @@ const senderosTemplate = `
     <% _.each(senderos, (sendero) => { %>
 
     <div class='col-md-4 col-sm-6 wow bounceIn' data-wow-duration='1s' data-wow-delay='1s'>
-        <a href="#mapa_seleccionado" data-target='#portfolio2' class='thumbnail hcaption'>
+        <a href="#contact" data-target='#portfolio2' class='thumbnail hcaption'>
               <img src='assets/images/portfolio/portfolio2-thumb.jpg' alt='Portfolio' title='Desktop Apps' />
               <p class='senderos'><%= sendero.nombre %></p>
         </a>
@@ -40,20 +40,33 @@ const mostrar_mapa = (datos) =>
       var destino = data_respuesta.camino[data_respuesta.camino.length-1];
       console.log("Origen:"+origen.latitud+","+origen.longitud);
       console.log("Destino:"+destino.latitud+","+destino.longitud);
+      var total_gimy = JSON.parse(data_respuesta.camino[0]);
+      console.log("Total_gimy:!¡"+total_gimy[0].latitud);
+      $("#publicar").css("display","none");
+      $("#mostrar").fadeIn();
+      
       generar_mapa();
       
       clearMarkers();
       markers.length = 0;
-      var pos = new google.maps.LatLng(data_respuesta.camino[0].latitud, data_respuesta.camino[0].longitud);
-      var pos1 = new google.maps.LatLng(data_respuesta.camino[data_respuesta.camino.length-1].latitud, data_respuesta.camino[data_respuesta.camino.length-1].longitud);
+      // var pos = new google.maps.LatLng(data_respuesta.camino[0].latitud, data_respuesta.camino[0].longitud);
+      // var pos1 = new google.maps.LatLng(data_respuesta.camino[data_respuesta.camino.length-1].latitud, data_respuesta.camino[data_respuesta.camino.length-1].longitud);
       
-      $.each(data_respuesta.camino, function(key,value)
+      $.each(total_gimy, function(key,value)
       {
         var pos = new google.maps.LatLng(value.latitud, value.longitud);
         addMarker(pos,map);
       });
       
-      setMapOnAll(map);
+      flightPlanCoordinates.length = 0;
+      
+      $.each(markers, function(key,value)
+      {
+          flightPlanCoordinates.push(value.position);
+      });
+      
+      generar_linea_sendero(flightPlanCoordinates,map);
+      // setMapOnAll(map);
       /*var marker = new google.maps.Marker({
             position: pos,
             map: map,
@@ -116,11 +129,11 @@ function generar_linea_sendero(coordenadas, map)
   });
 
   flightPath.setMap(map);
-  clearMarkers();
+  //clearMarkers();
 }
 
 function setMapOnAll(map) {
-  for (var i = 1; i < markers.length-1; i++) {
+  for (var i = 0; i < markers.length; i++) {
     markers[i].setMap(map);
   }
 }
@@ -149,12 +162,22 @@ $(document).ready(() => {
     //Hacemos la lectura del JSON
     //$.get("senderos.json", botones_ejemplos, 'json');
     
-    $("#generar_mapa").click(function()
+    $("#generar_mapa").click(function(event)
     {
+      event.preventDefault();
+      $("#mostrar").css("display","none");
+      $("#publicar").show();
         //initMap(origen,destino);    
         console.log("Generando mapa");
         generar_mapa();
     });
+    
+    // $("#nuestros_senderos > a").click(function(event){
+    //   event.preventDefault();
+    //   console.log("entrando en nuestros_senderos...");
+    //   $("#publicar").css("display","none");
+    //   $("#mostrar").show();
+    // });
     
     $("#subir_imagen").click(function(event)
     {
