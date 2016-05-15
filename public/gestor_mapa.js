@@ -27,7 +27,8 @@ const senderosTemplate = `
 const mostrar_mapa = (datos) =>
 {
   console.log("Nombre del mapa a mostrar:"+datos);
-  $.get('/mostrar_mapa_seleccionado',{ nombre_mapa: datos, usuario_propietario: user_actual}, data_respuesta => {
+  console.log("usuario:"+user_actual);
+  $.get('/mostrar_mapa_seleccionado',{ nombre_mapa: datos}, data_respuesta => {
       console.log("Descripcion:"+data_respuesta.descripcion);
       console.log("User:"+data_respuesta.user_propietario);
       console.log("Correo:"+data_respuesta.correo_propietario);
@@ -45,10 +46,25 @@ const mostrar_mapa = (datos) =>
       $("#publicar").css("display","none");
       $("#mostrar").fadeIn();
       
+      console.log("Nombre usuarion wecnwccniowe:"+data_respuesta.nombre_);
+      console.log("Apellidos usuario: "+data_respuesta.apellidos_);
+      
+      $("#usuario_mostrarmapa").html(data_respuesta.user_propietario);
+      $("#nombre_mostrarmapa").html(data_respuesta.nombre_);
+      $("#apellidos_mostrarmapa").html(data_respuesta.apellidos_);
+      $("#email_mostrarmapa").html(data_respuesta.correo_propietario);
+      
+      $("#latitudo_mostrarmapa").html(total_gimy[0].latitud);
+      $("#latitudd_mostrarmapa").html(total_gimy[0].longitud);
+      $("#longitudo_mostrarmapa").html(total_gimy[total_gimy.length-1].latitud);
+      $("#longitudd_mostrarmapa").html(total_gimy[total_gimy.length-1].longitud);
+      
+      $("#descripcion_mostrarmapa").html(data_respuesta.descripcion);
       generar_mapa();
       
       clearMarkers();
       markers.length = 0;
+      flightPlanCoordinates.length = 0;
       // var pos = new google.maps.LatLng(data_respuesta.camino[0].latitud, data_respuesta.camino[0].longitud);
       // var pos1 = new google.maps.LatLng(data_respuesta.camino[data_respuesta.camino.length-1].latitud, data_respuesta.camino[data_respuesta.camino.length-1].longitud);
       
@@ -104,6 +120,9 @@ function generar_mapa()
     mapTypeId: google.maps.MapTypeId.TERRAIN,
     mapTypeControl: false
   });
+  clearMarkers();
+  markers.length = 0;
+  flightPlanCoordinates.length = 0;
   google.maps.event.addListener(map, 'click', function(event)
   {
       console.log("Datos:"+event.latLng.lat());
@@ -162,13 +181,19 @@ $(document).ready(() => {
     //Hacemos la lectura del JSON
     //$.get("senderos.json", botones_ejemplos, 'json');
     
+    $.get("/mostrar_caminos", mostrando_senderos, 'json');
+
     $("#generar_mapa").click(function(event)
     {
       event.preventDefault();
+      $("#contact").show();
       $("#mostrar").css("display","none");
       $("#publicar").show();
         //initMap(origen,destino);    
         console.log("Generando mapa");
+        clearMarkers();
+        markers.length = 0;
+        flightPlanCoordinates.length = 0;
         generar_mapa();
     });
     
@@ -181,25 +206,56 @@ $(document).ready(() => {
     
     $("#guardar_camino").click(function(event)
     {
-        console.log("Guardando camino");
         event.preventDefault();
-        
-        console.log("Mostrando camino");
-        console.log("Camino:"+markers);
-        $.each(markers,function(key,value)
+
+        if(user_actual == null)
         {
-          console.log("Key:"+key+",Value:"+value.position);
-          flightPlanCoordinates.push(value.position);
-        });
-        generar_linea_sendero(flightPlanCoordinates,map);
-        var puntos_sendero = JSON.stringify(puntos_intermedios);
-        
-        //var caminando_baby = JSON.stringify(markers);
-        console.log("User_actual:"+user_actual);
-        
-        $.get("/nuevo_camino",{usuario: user_actual, nombre_mapa: $("#nombre_mapa").val(), descripcion_mapa: $("#descripcion_mapa").val(), puntos: puntos_sendero}, data_respuesta => {
-            console.log("Data_respuesta:"+data_respuesta);
-        });
+          console.log("No inicio sesion");
+          //Login con el foco
+          $("#mensaje_aviso_publicar").fadeIn();
+          $("#mensaje_aviso_publicar").html("Debes iniciar sesión antes de guardar un nuevo sendero");
+          $("#guardar_camino").focusout(function()
+          {
+              //$("#mensaje_aviso_publicar").css("display","none");
+              $("#mensaje_aviso_publicar").fadeOut();
+          });
+        }
+        else
+        {
+          console.log("Nombre_mapa:"+$("#nombre_mapa").val());
+          if(!$("#nombre_mapa").val())
+          {
+            $("#mensaje_aviso_publicar").fadeIn();
+            $("#mensaje_aviso_publicar").html("El sendero debe tener un nombre");
+            $("#nombre_mapa").css("border-color","red");
+            $("#nombre_mapa").focusout(function()
+            {
+                $("#mensaje_aviso_publicar").fadeOut();
+                $("#nombre_mapa").css("border-color", "white");
+            });
+          }
+          else
+          {
+                console.log("Guardando camino");
+                console.log("Camino:"+markers);
+                $.each(markers,function(key,value)
+                {
+                  console.log("Key:"+key+",Value:"+value.position);
+                  flightPlanCoordinates.push(value.position);
+                });
+                generar_linea_sendero(flightPlanCoordinates,map);
+                var puntos_sendero = JSON.stringify(puntos_intermedios);
+                
+                //var caminando_baby = JSON.stringify(markers);
+                console.log("User_actual:"+user_actual);
+                
+                $.get("/nuevo_camino",{usuario: user_actual, nombre_mapa: $("#nombre_mapa").val(), descripcion_mapa: $("#descripcion_mapa").val(), puntos: puntos_sendero}, data_respuesta => {
+                    console.log("Data_respuesta:"+data_respuesta);
+                    $("#mensaje_aviso_publicar").fadeIn();
+                    $("#mensaje_aviso_publicar").html(data_respuesta.mensaje_respuesta_publicar);
+                }); 
+          }
+        }
      });
     
       $('.modal-footer button').click(function(){
