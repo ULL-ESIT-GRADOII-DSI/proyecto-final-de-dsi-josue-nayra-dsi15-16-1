@@ -162,7 +162,7 @@
 <!---------------------------------------------------------------------------------------------------------------------------------------------------------->
 <!-- Publicar un sendero -->
 
-<section id="contact">
+<section id="contact" style="display:none;">
 	<div class="container">
         <div class="row">
             <h2 class="heading wow fadeInUp" data-wow-duration="0.8s" data-wow-delay="0.8s">Publica tu sendero</h2>
@@ -228,7 +228,8 @@
                   <div class="row" style="margin-top:10px;">
                       <div class="col-md-6" data-wow-duration="1s" data-wow-delay="1s"></div>
                       <div class="col-md-6" data-wow-duration="1s" data-wow-delay="1s">
-                        <button id="guardar_camino" type="submit" class="btn main-btn wow bounceIn" data-wow-duration="1s" data-wow-delay="1s">Guardar sendero</button>
+                        <h5 id="mensaje_aviso_publicar"></h5>
+                        <button style="margin-top:7px;" id="guardar_camino" type="submit" class="btn main-btn wow bounceIn" data-wow-duration="1s" data-wow-delay="1s">Guardar sendero</button>
                         <!--<button id="mostrar_camino" type="submit" class="btn">Mostrar sendero</button>-->
                       </div>
                   </div>
@@ -258,51 +259,6 @@
   </section>
 
 <!---------------------------------------------------------------------------------------------------------------------------------------------------------->
-<!-- Sección usuario (mapa) -->
-
-<section id="mapa_seleccionado">
-	<div class="container">
-    <div class="row">
-      <h2 class="heading wow fadeInUp" data-wow-duration="0.8s" data-wow-delay="0.8s"> Tu ruta</h2>
-      
-      <div class="col-md-6">
-        
-        <div class="table-responsive">
-        <table class="table table-hover">
-          <thead>
-            <tr>
-              <th>Usuario</th>
-              <th>Email</th>
-              <th>Ruta</th>
-              <th>Origen</th>
-              <th>Destino</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td id="usuario"></td>
-              <td id="email"></td>
-              <td id="ruta"></td>
-              <td id="origen"></td>
-              <td id="destino"></td>
-            </tr>
-          </tbody>
-        </table>
-        </div>
-      </div>
-    
-      <p id="descripcion"></p>
-    
-      <div class="col-md-6">
-        <div id="map" style="height: 400px;border-color:red" class="col-md-6 wow bounceIn" data-wow-duration="1s" data-wow-delay="1s">
-        </div>
-      </div>
-    
-    </div>
-      
-    </div>
-	</div>
-</section>
 
 <!---------------------------------------------------------------------------------------------------------------------------------------------------------->
 <!-- Footer -->
