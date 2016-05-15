@@ -29,35 +29,17 @@ const mostrar_mapa = (datos) =>
   console.log("Nombre del mapa a mostrar:"+datos);
   console.log("usuario:"+user_actual);
   $.get('/mostrar_mapa_seleccionado',{ nombre_mapa: datos}, data_respuesta => {
-      console.log("Descripcion:"+data_respuesta.descripcion);
-      console.log("User:"+data_respuesta.user_propietario);
-      console.log("Correo:"+data_respuesta.correo_propietario);
-      /*$.each(data_respuesta.camino, function(key, value)
-      {
-        console.log("Key:"+key+", Value:"+value);
-      });*/
-      console.log("Camino:"+data_respuesta.camino[0].latitud);
-      var origen = data_respuesta.camino[0];
-      var destino = data_respuesta.camino[data_respuesta.camino.length-1];
-      console.log("Origen:"+origen.latitud+","+origen.longitud);
-      console.log("Destino:"+destino.latitud+","+destino.longitud);
       var total_gimy = JSON.parse(data_respuesta.camino[0]);
-      console.log("Total_gimy:!¡"+total_gimy[0].latitud);
+      
       $("#publicar").css("display","none");
       $("#mostrar").fadeIn();
       
-      console.log("Nombre usuarion wecnwccniowe:"+data_respuesta.nombre_);
-      console.log("Apellidos usuario: "+data_respuesta.apellidos_);
-      
       $("#usuario_mostrarmapa").html(data_respuesta.user_propietario);
-      $("#nombre_mostrarmapa").html(data_respuesta.nombre_);
-      $("#apellidos_mostrarmapa").html(data_respuesta.apellidos_);
-      $("#email_mostrarmapa").html(data_respuesta.correo_propietario);
       
-      $("#latitudo_mostrarmapa").html(total_gimy[0].latitud);
-      $("#latitudd_mostrarmapa").html(total_gimy[0].longitud);
-      $("#longitudo_mostrarmapa").html(total_gimy[total_gimy.length-1].latitud);
-      $("#longitudd_mostrarmapa").html(total_gimy[total_gimy.length-1].longitud);
+      $("#latitudo_mostrarmapa").html("Lat: "+total_gimy[0].latitud);
+      $("#latitudd_mostrarmapa").html("Lat: "+total_gimy[0].longitud);
+      $("#longitudo_mostrarmapa").html("Long: "+total_gimy[total_gimy.length-1].latitud);
+      $("#longitudd_mostrarmapa").html("Long: "+total_gimy[total_gimy.length-1].longitud);
       
       $("#descripcion_mostrarmapa").html(data_respuesta.descripcion);
       generar_mapa();
@@ -258,7 +240,8 @@ $(document).ready(() => {
         }
      });
     
-      $('.modal-footer button').click(function(){
+      $('.modal-footer button').click(function(event){
+        event.preventDefault();
       		var button = $(this);
           
           console.log("Nombre:"+$("#uLogin").val());
@@ -300,6 +283,7 @@ $(document).ready(() => {
       	});
 
       $('#myModal').on('hidden.bs.modal', function (e) {
+        e.preventDefault();
       		var inputs = $('form input');
       		var title = $('.modal-title');
       		var progressBar = $('.progress-bar');

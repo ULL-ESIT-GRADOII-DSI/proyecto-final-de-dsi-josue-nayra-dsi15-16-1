@@ -128,7 +128,7 @@ app.get('/login',(request, response) => {
     console.log("Datos recibidos en el servidor:");
     console.log("Nombre de usuario:"+request.query.nombre_usuario);
     console.log("Password de usuario:"+request.query.password_usuario);
-    User.find({nombre: request.query.nombre_usuario}, function(err, data)
+    User.find({username: request.query.nombre_usuario}, function(err, data)
     {
         if(err)
         {
@@ -138,11 +138,30 @@ app.get('/login',(request, response) => {
         {
             if(data.length > 0)
             {
-                response.send({id_usuario: data[0]._id, email: data[0].correo_electronico, autor: data[0].username, mensaje_respuesta_login: "Usuario correcto"});    
+                response.send({id_usuario: data[0]._id, autor: data[0].username, mensaje_respuesta_login: "Usuario correcto"});    
             }
             else
             {
-                response.send({id_usuario: -1, mensaje_respuesta_login: "Usuario no encontrado"});   
+                let nuevo_usuario = new User({
+                    username: request.query.nombre_usuario,
+                    password: request.query.password
+                });
+                nuevo_usuario.save(function(err){
+                    if(err) return console.log(err);
+                    else {
+                        console.log(`Nuevo usuario creado: ${nuevo_usuario}`);
+                    }
+                }).then(()=>{
+                    User 
+                        .findOne({username: request.query.nombre_usuario, password: request.query.password})
+                        .exec(function(err,usuario){
+                            if(err) return console.log(err);
+                            else {
+                                response.send({id_usuario: usuario._id, autor: usuario.username, mensaje_respuesta_login: "Nuevo usuario"});   
+                            }
+                        })
+                        
+                });
             }
         }
     });
