@@ -2,29 +2,26 @@
 
 ## Desarrollo de Sistemas Informáticos
 
+En este proyecto se ha desarrollado una aplicación para almacenar y compartir senderos de la isla de La Palma. 
+La aplicación permite compartir tus propios senderos, almacenándolos con tu cuenta de usuario. 
+Cada usuario puede marcar los distintos puntos que conforman su ruta o sendero, sobre el mismo mapa de la isla, para posteriormente compartirlo.
 
 
+## Herramientas utilizadas
+
+### NodeJS
 
 
+### Express
 
 
+### ECMA 6
 
 
+### MongoDB
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+* Mongoose
+* Populations
 
 
 

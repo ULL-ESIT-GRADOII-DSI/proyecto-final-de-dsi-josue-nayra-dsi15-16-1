@@ -8,7 +8,7 @@
   <div class="container">
     <div class="navbar-header">
       <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse"> <span class="sr-only">Toggle navigation</span> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span> </button>
-      <a class="navbar-brand" href="" title="MaterialStrap"><img src="assets/images/logo.png" alt="logo" title="MaterialStrap" /></a> </div>
+      <a class="navbar-brand" href="" title="LaPalmaTrail"><img src="assets/images/logotipo.png" alt="logo" title="LaPalmaTrail" /></a> </div>
     <div class="navbar-collapse collapse">
       <ul class="nav navbar-nav navbar-right" id="menu">
         <li><a data-scroll data-options="easing: easeOutQuart" href="#banner">Home</a></li>
@@ -18,7 +18,8 @@
 
         <!--<li><a data-scroll data-options="easing: easeOutQuart" href="#contact">Contact</a></li>-->
         <li id="generar_mapa"><a data-scroll data-options="easing: easeOutQuart" href="#contact">Publica tu sendero</a></li>
-        <li><a data-scroll data-options="easing: easeOutQuart" data-toggle="modal" data-target="#myModal">Login</a></li>
+        <li><a data-scroll data-options="easing: easeOutQuart" data-toggle="modal" data-target="#myModal"><i class="icon-user "></i>   Login </a></li>
+        
       </ul>
     </div>
     <!--/.nav-collapse --> 
@@ -140,9 +141,12 @@
     </div>
   </div> 
 </div>
-	
-    	 <!-- Carousel -->
+
 </section>
+
+
+<!------------------------------------------------------------------------------------------------------------------------------------>
+<!-- Rutas -->
 
 <section id="mywork" class="section">
 	<div class="container">
@@ -227,6 +231,9 @@
         </div>
     </div>
 </section>
+
+<!------------------------------------------------------------------------------------------------------------------------------------>
+
 <section id="about">
 	<div class="sectionIcon wow bounceIn" data-wow-duration="0.8s" data-wow-delay="1s"><i class="fa fa-angle-down"></i></div>
 	<div class="container">
@@ -249,6 +256,10 @@
         </div>
     </div>
 </section>
+
+<!------------------------------------------------------------------------------------------------------------------------------------>
+
+
 <section id="parallax-1" class="bgParallax" data-speed="15">
 <div class="color-overlay">
 	<div class="container">
@@ -330,24 +341,24 @@
                 	<div class="row">
                   		<div class="col-md-6 wow bounceIn" data-wow-duration="1s" data-wow-delay="1s">
                     		<div class="form-group">
-                              <input type="text" class="form-control" name="nombre_mapa" autocomplete="off" id="nombre_mapa" placeholder="Nombre del mapa">
+                          <input type="text" class="form-control" name="nombre_mapa" autocomplete="off" id="nombre_mapa" placeholder="Nombre del mapa">
                     		</div>
-                        
+
                         <div class="form-group">
                               <input type="text" class="form-control" name="autor_mapa" autocomplete="off" id="autor_mapa" placeholder="Autor del mapa">
                         </div>
+                  		  
                   		  <div class="form-group">
-                              <input type="email" class="form-control" name="email" autocomplete="off" id="email" placeholder="E-mail">
+                          <input type="email" class="form-control" name="email" autocomplete="off" id="email" placeholder="E-mail">
                     	  </div>
-                    	  
+                  		  
                   		  <div class="form-group">
-                            <textarea class="form-control textarea" rows="2" name="descripcion_mapa" id="descripcion_mapa" placeholder="Descripcion del mapa"></textarea>
+                          <textarea class="form-control textarea" rows="2" name="descripcion_mapa" id="descripcion_mapa" placeholder="Descripcion del mapa"></textarea>
                   		  </div>
-                  		
                     	</div>
-                      
-                        <div id="map" style="height: 400px;border-color:red" class="col-md-6 wow bounceIn" data-wow-duration="1s" data-wow-delay="1s">
-                        <div id="coords"></div>
+                    	
+                    	<div class="col-md-6 wow bounceIn" data-wow-duration="1s" data-wow-delay="1s">
+                        <div id="map" style="width: 100%; height: 400px;border-color:red" class="col-md-6 wow bounceIn" data-wow-duration="1s" data-wow-delay="1s">
                     	</div>
                   </div>
                   
@@ -391,34 +402,81 @@
 
 
 <!---------------------------------------------------------------------------------------------------------------------------------------------------------->
+<!-- Sección usuario (mapa) -->
+
+<section id="mapa_seleccionado">
+	<div class="container">
+    <div class="row">
+      <h2 class="heading wow fadeInUp" data-wow-duration="0.8s" data-wow-delay="0.8s"> Tu ruta</h2>
+      
+      <div class="col-md-6">
+        
+        <div class="table-responsive">
+        <table class="table table-hover">
+          <thead>
+            <tr>
+              <th>Usuario</th>
+              <th>Email</th>
+              <th>Ruta</th>
+              <th>Origen</th>
+              <th>Destino</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td id="usuario"></td>
+              <td id="email"></td>
+              <td id="ruta"></td>
+              <td id="origen"></td>
+              <td id="destino"></td>
+            </tr>
+          </tbody>
+        </table>
+        </div>
+      </div>
+    
+      <p id="descripcion"></p>
+    
+      <div class="col-md-6">
+        <div id="map" style="height: 400px;border-color:red" class="col-md-6 wow bounceIn" data-wow-duration="1s" data-wow-delay="1s">
+        </div>
+      </div>
+    
+    </div>
+      
+    </div>
+	</div>
+</section>
+
+<!---------------------------------------------------------------------------------------------------------------------------------------------------------->
+<!-- Footer -->
 
 <section id="info">
 	<div class="container">
 		<div class="row">
         	<div class="col-md-4">
-            		<h4 class="wow fadeInUp" data-wow-duration="0.8s" data-wow-delay="0.8s">Location</h4>
+            		<h4 class="wow fadeInUp" data-wow-duration="0.8s" data-wow-delay="0.8s">Josué Toledo</h4>
                     <address class="wow fadeInUp" data-wow-duration="0.8s" data-wow-delay="0.8s">
-                  		<strong>The MaterialStrap Inc.</strong><br>
-                  			48800 Main Road, Chakwal<br>
+                  		<strong>alu0100763492@ull.edu.es</strong><br>
                 		</address>
-                        <address class="wow fadeInUp" data-wow-duration="0.8s" data-wow-delay="0.8s">
-                  <abbr title="Phone">P:</abbr> (92) 332-5903076
-                  <a href="mailto:#">waqashussain91@gmail.com</a>
-                </address>
+                        
             </div>
             <div class="col-md-4">
-            	<h4 class="wow fadeInUp" data-wow-duration="0.8s" data-wow-delay="0.8s">Social Circle</h4>
+            	<h4 class="wow fadeInUp" data-wow-duration="0.8s" data-wow-delay="0.8s">Repositorio Github</h4>
                 <div class="clearfix"></div>
+                
                 <ul class="list-inline social">
-                          <li class="wow bounceIn" data-wow-duration="1.0s" data-wow-delay="0.8s"><a href="https://www.facebook.com/mirchu.net" class="fb"><i class="mdicon facebook"></i></a></li>
-                          <li class="wow bounceIn" data-wow-duration="1.0s" data-wow-delay="1.0s"><a href="https://twitter.com/mirchu_net" class="twt"><i class="mdicon twitter"></i></a></li>
-                          <li class="wow bounceIn" data-wow-duration="1.0s" data-wow-delay="1.2s"><a href="https://plus.google.com/+MirchuNet" class="dr"><i class="mdicon google-plus-fill"></i></a></li>
-                          <li class="wow bounceIn" data-wow-duration="1.0s" data-wow-delay="1.4s"><a href="#" class="be"><i class="mdicon linkedin"></i></a></li>
-                        </ul>
+                  <li class="wow bounceIn" data-wow-duration="1.0s" data-wow-delay="0.8s"><a href="https://github.com/ULL-ESIT-GRADOII-DSI/proyecto-final-Josue-Nayra" class="fb"><i class="icon-github icon-3x"></i></a></li>
+                  <!--<li class="wow bounceIn" data-wow-duration="1.0s" data-wow-delay="1.0s"><a href="https://twitter.com/mirchu_net" class="twt"><i class="mdicon twitter"></i></a></li>-->
+                  <!--<li class="wow bounceIn" data-wow-duration="1.0s" data-wow-delay="1.2s"><a href="https://plus.google.com/+MirchuNet" class="dr"><i class="mdicon google-plus-fill"></i></a></li>-->
+                  <!--<li class="wow bounceIn" data-wow-duration="1.0s" data-wow-delay="1.4s"><a href="#" class="be"><i class="mdicon linkedin"></i></a></li>-->
+                </ul>
             </div>
             <div class="col-md-4">
-            	<h4 class="wow fadeInUp" data-wow-duration="0.8s" data-wow-delay="0.8s">About Freelancer</h4>
-                <p class="wow fadeInUp" data-wow-duration="0.8s" data-wow-delay="0.8s">I'm Freelancer, a New York based freelance web developer and designer. I passionately move pixels and lines of code to craft clean, responsive, and user-friendly websites.</p>
+            	<h4 class="wow fadeInUp" data-wow-duration="0.8s" data-wow-delay="0.8s">M. Nayra Rguez</h4>
+                    <address class="wow fadeInUp" data-wow-duration="0.8s" data-wow-delay="0.8s">
+                  		<strong>alu0100406122@ull.edu.es</strong><br>
+                		</address>
             </div>
         </div>
     </div>
