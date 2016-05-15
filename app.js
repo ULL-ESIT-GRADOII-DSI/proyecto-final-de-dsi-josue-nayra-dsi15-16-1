@@ -62,9 +62,8 @@ app.get('/mostrar_caminos', (request, response) => {
 app.get('/mostrar_mapa_seleccionado',(request, response) => {
         console.log("Accedo a mapa");
         console.log("Nombre:"+request.query.nombre_mapa);
-        console.log("Usuario propietario:"+request.query.usuario_propietario);
-        const id = mongoose.Types.ObjectId(request.query.usuario_propietario);
-        Mapa.find({nombre: request.query.nombre_mapa, _creator: id}, function(err,data)
+        
+        Mapa.find({nombre: request.query.nombre_mapa}, function(err,data)
         {
             console.log("Data:"+data);
             if(err) console.log("Error:"+err);
@@ -72,12 +71,14 @@ app.get('/mostrar_mapa_seleccionado',(request, response) => {
             {
                 if(data.length > 0)
                 {   
-                    User.find({ _id: id}, function(err,data_usuario)
+                    //const id = mongoose.Types.ObjectId(data._creator);
+                    console.log("Data_creator:"+data[0]._creator);
+                    User.find({ _id: data[0]._creator}, function(err,data_usuario)
                     {
                        if(err) console.log("Error:"+err);
                        else
                        {
-                           response.send({descripcion: data[0].descripcion, camino: data[0].camino, user_propietario: data_usuario[0].username, correo_propietario: data_usuario[0].correo_electronico});
+                           response.send({descripcion: data[0].descripcion, camino: data[0].camino, user_propietario: data_usuario[0].username, nombre_: data_usuario[0].nombre, apellidos_: data_usuario[0].apellidos, correo_propietario: data_usuario[0].correo_electronico});
                        }
                     });
                 }

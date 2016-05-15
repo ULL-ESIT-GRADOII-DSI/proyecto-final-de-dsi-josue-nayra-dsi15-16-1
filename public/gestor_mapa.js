@@ -27,7 +27,8 @@ const senderosTemplate = `
 const mostrar_mapa = (datos) =>
 {
   console.log("Nombre del mapa a mostrar:"+datos);
-  $.get('/mostrar_mapa_seleccionado',{ nombre_mapa: datos, usuario_propietario: user_actual}, data_respuesta => {
+  console.log("usuario:"+user_actual);
+  $.get('/mostrar_mapa_seleccionado',{ nombre_mapa: datos}, data_respuesta => {
       console.log("Descripcion:"+data_respuesta.descripcion);
       console.log("User:"+data_respuesta.user_propietario);
       console.log("Correo:"+data_respuesta.correo_propietario);
@@ -45,10 +46,25 @@ const mostrar_mapa = (datos) =>
       $("#publicar").css("display","none");
       $("#mostrar").fadeIn();
       
+      console.log("Nombre usuarion wecnwccniowe:"+data_respuesta.nombre_);
+      console.log("Apellidos usuario: "+data_respuesta.apellidos_);
+      
+      $("#usuario_mostrarmapa").html(data_respuesta.user_propietario);
+      $("#nombre_mostrarmapa").html(data_respuesta.nombre_);
+      $("#apellidos_mostrarmapa").html(data_respuesta.apellidos_);
+      $("#email_mostrarmapa").html(data_respuesta.correo_propietario);
+      
+      $("#latitudo_mostrarmapa").html(total_gimy[0].latitud);
+      $("#latitudd_mostrarmapa").html(total_gimy[0].longitud);
+      $("#longitudo_mostrarmapa").html(total_gimy[total_gimy.length-1].latitud);
+      $("#longitudd_mostrarmapa").html(total_gimy[total_gimy.length-1].longitud);
+      
+      $("#descripcion_mostrarmapa").html(data_respuesta.descripcion);
       generar_mapa();
       
       clearMarkers();
       markers.length = 0;
+      flightPlanCoordinates.length = 0;
       // var pos = new google.maps.LatLng(data_respuesta.camino[0].latitud, data_respuesta.camino[0].longitud);
       // var pos1 = new google.maps.LatLng(data_respuesta.camino[data_respuesta.camino.length-1].latitud, data_respuesta.camino[data_respuesta.camino.length-1].longitud);
       
@@ -104,6 +120,9 @@ function generar_mapa()
     mapTypeId: google.maps.MapTypeId.TERRAIN,
     mapTypeControl: false
   });
+  clearMarkers();
+  markers.length = 0;
+  flightPlanCoordinates.length = 0;
   google.maps.event.addListener(map, 'click', function(event)
   {
       console.log("Datos:"+event.latLng.lat());
@@ -172,6 +191,9 @@ $(document).ready(() => {
       $("#publicar").show();
         //initMap(origen,destino);    
         console.log("Generando mapa");
+        clearMarkers();
+        markers.length = 0;
+        flightPlanCoordinates.length = 0;
         generar_mapa();
     });
     
@@ -198,6 +220,7 @@ $(document).ready(() => {
     $("#guardar_camino").click(function(event)
     {
         event.preventDefault();
+
         if(user_actual == null)
         {
           console.log("No inicio sesion");
@@ -227,9 +250,6 @@ $(document).ready(() => {
           else
           {
                 console.log("Guardando camino");
-                event.preventDefault();
-                
-                console.log("Mostrando camino");
                 console.log("Camino:"+markers);
                 $.each(markers,function(key,value)
                 {
