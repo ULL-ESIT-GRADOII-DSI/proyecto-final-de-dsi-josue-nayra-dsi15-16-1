@@ -112,12 +112,7 @@ app.get('/nuevo_camino',(request, response) => {
             if(err) return console.log(err);
             console.log('Propietario del mapa: %s',mapa._creator);
         }).then( () => {
-            var nuevo;
-             Mapa.find({ _creator: id}, function(err, nueva_data)
-             {
-                 nuevo = nueva_data;
-                 console.log("Nuevas tablas:"+nueva_data);
-             });
+            response.send({mensaje_respuesta_publicar: "Guardado con exito"});
         });            
     });            
 });

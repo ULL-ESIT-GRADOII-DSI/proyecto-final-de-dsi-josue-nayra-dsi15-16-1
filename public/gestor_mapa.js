@@ -35,7 +35,7 @@ const mostrar_mapa = (datos) =>
       $("#mostrar").fadeIn();
       
       $("#usuario_mostrarmapa").html(data_respuesta.user_propietario);
-      
+      $("#titulo_mapa").html(datos);
       $("#latitudo_mostrarmapa").html("Lat: "+total_gimy[0].latitud);
       $("#latitudd_mostrarmapa").html("Lat: "+total_gimy[0].longitud);
       $("#longitudo_mostrarmapa").html("Long: "+total_gimy[total_gimy.length-1].latitud);
@@ -90,7 +90,11 @@ const mostrando_senderos = (datos) =>
     $("#nuestros_senderos").html(_.template(senderosTemplate, {senderos: datos.mapas}));
     
     $('p.senderos').each( (_,y) => {
-      $(y).click( () => { mostrar_mapa(`${$(y).text()}`); });
+      $(y).click( () => { 
+        $("#contact").show();
+        $("#publicar").css("display","none");
+        $("#mostrar").show();
+        mostrar_mapa(`${$(y).text()}`); });
     });
 }
 
@@ -162,6 +166,7 @@ $(document).ready(() => {
         
     //Hacemos la lectura del JSON
     //$.get("senderos.json", botones_ejemplos, 'json');
+  
     
     $.get("/mostrar_caminos", mostrando_senderos, 'json');
 
@@ -176,6 +181,8 @@ $(document).ready(() => {
         clearMarkers();
         markers.length = 0;
         flightPlanCoordinates.length = 0;
+        console.log("Fly:"+flightPlanCoordinates);
+        puntos_intermedios.length = 0;
         generar_mapa();
     });
     
@@ -189,7 +196,7 @@ $(document).ready(() => {
     $("#guardar_camino").click(function(event)
     {
         event.preventDefault();
-
+        
         if(user_actual == null)
         {
           console.log("No inicio sesion");
@@ -232,7 +239,7 @@ $(document).ready(() => {
                 console.log("User_actual:"+user_actual);
                 
                 $.get("/nuevo_camino",{usuario: user_actual, nombre_mapa: $("#nombre_mapa").val(), descripcion_mapa: $("#descripcion_mapa").val(), puntos: puntos_sendero}, data_respuesta => {
-                    console.log("Data_respuesta:"+data_respuesta);
+                    console.log("Data_respuesta:"+data_respuesta.mensaje_respuesta_publicar);
                     $("#mensaje_aviso_publicar").fadeIn();
                     $("#mensaje_aviso_publicar").html(data_respuesta.mensaje_respuesta_publicar);
                 }); 
