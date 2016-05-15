@@ -20,7 +20,7 @@
         descripcion: String,
         //origen: {Latitud: String, Longitud: String},
         //destino: {Latitud: String, Longitud: String},
-        camino: String,
+        camino: Array,
         _creator: [{type: Schema.Types.ObjectId, ref: "User"}]
     });
 
