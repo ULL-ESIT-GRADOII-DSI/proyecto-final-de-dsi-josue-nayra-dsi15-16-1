@@ -40,14 +40,50 @@ app.get('/', (request, response) => {
     upload.upload;
 });*/
 
-const upload = require('./models/upload.js');
+/*const upload = require('./models/upload.js');
 
 app.post('/upload', (request, response) => {
     console.log("Accediendo a upload");
     console.log("Imagen:"+request.query.imagen);
     upload(request.query.imagen);
+});*/
+
+app.get('/mostrar_caminos', (request, response) => {
+    Mapa.find({}, function(err,data)
+    {
+        if(err)  console.log("Error:"+err);
+        else
+        {
+            response.send({mapas: data, mensaje_respuesta_peticionsenderos: "Nuestros senderos"});   
+        }
+    });
 });
 
+app.get('/mostrar_mapa_seleccionado',(request, response) => {
+        console.log("Accedo a mapa");
+        console.log("Nombre:"+request.query.nombre_mapa);
+        console.log("Usuario propietario:"+request.query.usuario_propietario);
+        const id = mongoose.Types.ObjectId(request.query.usuario_propietario);
+        Mapa.find({nombre: request.query.nombre_mapa, _creator: id}, function(err,data)
+        {
+            console.log("Data:"+data);
+            if(err) console.log("Error:"+err);
+            else
+            {
+                if(data.length > 0)
+                {   
+                    User.find({ _id: id}, function(err,data_usuario)
+                    {
+                       if(err) console.log("Error:"+err);
+                       else
+                       {
+                           response.send({descripcion: data[0].descripcion, camino: data[0].camino, user_propietario: data_usuario[0].username, correo_propietario: data_usuario[0].correo_electronico});
+                       }
+                    });
+                }
+            }
+        });
+});
 
 app.get('/nuevo_camino',(request, response) => { 
     console.log("Servidor:Guardando camino");
@@ -55,7 +91,7 @@ app.get('/nuevo_camino',(request, response) => {
     console.log("Puntos intermedios:"+request.query.puntos);
 
     const id = mongoose.Types.ObjectId(request.query.usuario);
-    
+
     let nuevo_mapa = new Mapa(
     {
         nombre: request.query.nombre_mapa,
@@ -101,7 +137,7 @@ app.get('/login',(request, response) => {
         {
             if(data.length > 0)
             {
-                response.send({id_usuario: data[0]._id, mensaje_respuesta_login: "Usuario correcto"});    
+                response.send({id_usuario: data[0]._id, email: data[0].correo_electronico, autor: data[0].username, mensaje_respuesta_login: "Usuario correcto"});    
             }
             else
             {

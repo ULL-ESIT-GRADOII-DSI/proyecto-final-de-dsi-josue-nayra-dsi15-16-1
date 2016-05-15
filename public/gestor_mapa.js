@@ -10,12 +10,86 @@ var flightPlanCoordinates = [];
 var flightPath;
 var puntos_intermedios = [];
 var user_actual;
+
+const senderosTemplate = `
+    <% _.each(senderos, (sendero) => { %>
+
+    <div class='col-md-4 col-sm-6 wow bounceIn' data-wow-duration='1s' data-wow-delay='1s'>
+        <a href="#mapa_seleccionado" data-target='#portfolio2' class='thumbnail hcaption'>
+              <img src='assets/images/portfolio/portfolio2-thumb.jpg' alt='Portfolio' title='Desktop Apps' />
+              <p class='senderos'><%= sendero.nombre %></p>
+        </a>
+    </div>
+    <% }); %>
+`;
+
+
+const mostrar_mapa = (datos) =>
+{
+  console.log("Nombre del mapa a mostrar:"+datos);
+  $.get('/mostrar_mapa_seleccionado',{ nombre_mapa: datos, usuario_propietario: user_actual}, data_respuesta => {
+      console.log("Descripcion:"+data_respuesta.descripcion);
+      console.log("User:"+data_respuesta.user_propietario);
+      console.log("Correo:"+data_respuesta.correo_propietario);
+      /*$.each(data_respuesta.camino, function(key, value)
+      {
+        console.log("Key:"+key+", Value:"+value);
+      });*/
+      console.log("Camino:"+data_respuesta.camino[0].latitud);
+      var origen = data_respuesta.camino[0];
+      var destino = data_respuesta.camino[data_respuesta.camino.length-1];
+      console.log("Origen:"+origen.latitud+","+origen.longitud);
+      console.log("Destino:"+destino.latitud+","+destino.longitud);
+      generar_mapa();
+      
+      clearMarkers();
+      markers.length = 0;
+      var pos = new google.maps.LatLng(data_respuesta.camino[0].latitud, data_respuesta.camino[0].longitud);
+      var pos1 = new google.maps.LatLng(data_respuesta.camino[data_respuesta.camino.length-1].latitud, data_respuesta.camino[data_respuesta.camino.length-1].longitud);
+      
+      $.each(data_respuesta.camino, function(key,value)
+      {
+        var pos = new google.maps.LatLng(value.latitud, value.longitud);
+        addMarker(pos,map);
+      });
+      
+      setMapOnAll(map);
+      /*var marker = new google.maps.Marker({
+            position: pos,
+            map: map,
+            title:"Esto es un marcador",
+            animation: google.maps.Animation.DROP
+      }); 
+      
+      var marker1 = new google.maps.Marker({
+            position: pos1,
+            map: map,
+            title:"Esto es un marcador",
+            animation: google.maps.Animation.DROP
+      }); */
+
+
+  });
+}
+
+const mostrando_senderos = (datos) => 
+{
+    console.log("Mapas:"+datos.mapas);
+    console.log("Mensaje:"+datos.mensaje_respuesta_peticionsenderos);
+    $("#nuestros_senderos").html(_.template(senderosTemplate, {senderos: datos.mapas}));
+    
+    $('p.senderos').each( (_,y) => {
+      $(y).click( () => { mostrar_mapa(`${$(y).text()}`); });
+    });
+}
+
 function generar_mapa()
 {
   map = new google.maps.Map(document.getElementById('map'), {
     center: {lat: 28.678373, lng: -17.850015},
     zoom: 10,
-    mapTypeId: google.maps.MapTypeId.TERRAIN
+    mapTypeId: google.maps.MapTypeId.TERRAIN,
+    mapTypeControl: false
   });
   google.maps.event.addListener(map, 'click', function(event)
   {
@@ -27,6 +101,7 @@ function generar_mapa()
       puntos_intermedios.push(aux);
       addMarker(event.latLng, map);
   });
+
 }
 
 
@@ -64,6 +139,7 @@ function addMarker(location, map) {
     label: labels[labelIndex++ % labels.length],
     map: map
   });
+  console.log("Marker:"+marker);
   markers.push(marker);
 }
 
@@ -86,6 +162,13 @@ $(document).ready(() => {
     
     });
     
+    $("#hacia_mywork").click(function(event)
+    {
+      event.preventDefault();
+      console.log("Entrando en mostrando caminos");
+      $.get("/mostrar_caminos", mostrando_senderos, 'json');
+    });
+    
     $("#guardar_camino").click(function(event)
     {
         console.log("Guardando camino");
@@ -100,12 +183,8 @@ $(document).ready(() => {
         });
         generar_linea_sendero(flightPlanCoordinates,map);
         var puntos_sendero = JSON.stringify(puntos_intermedios);
-        //puntos_sendero = JSON.parse(puntos_sendero);
-        //var origen_sendero = puntos_sendero[0].latitud;
-        //var destino_sendero = puntos_sendero[puntos_sendero.length-1];
         
-        console.log("Puntos sendero:"+puntos_sendero);
-        
+        //var caminando_baby = JSON.stringify(markers);
         console.log("User_actual:"+user_actual);
         
         $.get("/nuevo_camino",{usuario: user_actual, nombre_mapa: $("#nombre_mapa").val(), descripcion_mapa: $("#descripcion_mapa").val(), puntos: puntos_sendero}, data_respuesta => {
@@ -123,6 +202,9 @@ $(document).ready(() => {
                 console.log("Id del usuario logueado:"+data_respuesta.id_usuario);
                 console.log("Mensaje de respuesta:"+data_respuesta.mensaje_respuesta_login);
                 user_actual = data_respuesta.id_usuario;
+                //Rellenamos inputs
+                $("#email").val(data_respuesta.email);
+                $("#autor_mapa").val(data_respuesta.autor);
                 
               if ( button.attr("data-dismiss") != "modal" ){
           			var inputs = $('form input');
