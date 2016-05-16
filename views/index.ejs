@@ -192,35 +192,76 @@
                   		  
                   		  <!-- Volcar datos del sendero-->
                   		  <div id="mostrar" style="display:none">
+                  		    
+                  		    <!-- Tabla para el usuario-->
+                  		    <p class="pull-left">Datos del usuario: </p>
                   		    <div class="table-responsive">
-                            <table class="table table-hover">
-                              <thead></thead>
+                            <table class="table table-bordered">
+                              <thead>
+                                <th><b>Titulo</b></th>
+                                <th><b>Usuario</b></th>
+                              </thead>
                               <tbody>
-                                <tr><td class="pull-left"><b>Titulo:</b></td><td id="titulo_mapa"></td></tr>
-                                <tr><td class="pull-left"><b>Usuario</b></td><td id="usuario_mostrarmapa"></td></tr>
                                 <tr>
-                                      <td class="pull-left"><b>Origen</b></td>
-                                      <td id="latitudo_mostrarmapa"></td>
-                                      <td id="longitudo_mostrarmapa"></td>
-                                    </tr>
-                                    <tr>
-                                      <td class="pull-left"><b>Destino</b></td>
-                                      <td id="latitudd_mostrarmapa"></td>
-                                      <td id="longitudd_mostrarmapa"></td>
+                                  <td id="titulo_mapa"></td>
+                                  <td id="usuario_mostrarmapa"></td>
                                 </tr>
                               </tbody>
                             </table>
                           </div>
+                          </br>
+                          <p class="pull-left">Datos de la ruta: </p>
+                          
+                          <!-- Tabla para origen y destino-->
                           <div class="table-responsive">
-                              <table class="table table-hover">
-                                <thead>
-                                    
-                                </thead>
-                                <tbody>
-                                  <tr><td class="pull-left"><b>Descripcion</b></td><td id="descripcion_mostrarmapa"></td></tr>
-                                </tbody>
-                              </table>
+                            <table class="table table-bordered">
+                              <thead>
+                                <th><b>Origen</b></th>
+                                <th><b>Destino</b></th>
+                              </thead>
+                              <tbody>
+                                <tr>
+                                  <td id="latitudo_mostrarmapa"></td>
+                                  <td id="latitudd_mostrarmapa"></td>
+                                </tr>
+                                <tr>
+                                  <td id="longitudo_mostrarmapa"></td>
+                                  <td id="longitudd_mostrarmapa"></td>
+                                </tr>
+                              </tbody>
+                            </table>
                           </div>
+                          <!--Tabla para dificultad y puntuación-->
+                          <div class="table-responsive">
+                            <table class="table table-bordered">
+                              <thead>
+                                <th><b>Dificultad</b></th>
+                                <th><b>Puntuación</b></th>
+                              </thead>
+                              <tbody>
+                                <tr>
+                                  <td id="dificultad_mostrarmapa"></td>
+                                  <td id="puntuacion_mostrarmapa"></td>
+                                </tr>
+                              </tbody>
+                            </table>
+                          </div>
+                          <!--Tabla para descripción-->
+                          <div class="table-responsive">
+                            <table class="table table-bordered">
+                              <thead>
+                                <th><b>Descripción</b></th>
+                              </thead>
+                              <tbody>
+                                <tr class="pull-left" style="padding-left:10px; margin-top:5px;" id="descripcion_mostrarmapa">
+                                  
+                                </tr>
+                              </tbody>
+                            </table>
+                          </div>
+                          <!--<p class="pull-left">Descripción: </p>-->
+                          <!--<p id="descripcion_mostrarmapa"></p>-->
+                          
                   		  </div>
                   		  
                     	</div>
