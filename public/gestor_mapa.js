@@ -26,36 +26,36 @@ const senderosTemplate = `
 
 const mostrar_mapa = (datos) =>
 {
-  console.log("Nombre del mapa a mostrar:"+datos);
-  console.log("usuario:"+user_actual);
   $.get('/mostrar_mapa_seleccionado',{ nombre_mapa: datos}, data_respuesta => {
-      var total_gimy = JSON.parse(data_respuesta.camino[0]);
+      var puntos = JSON.parse(data_respuesta.camino[0]);
       
       $("#publicar").css("display","none");
       $("#mostrar").fadeIn();
       
       $("#usuario_mostrarmapa").html(data_respuesta.user_propietario);
       $("#titulo_mapa").html(datos);
-      $("#latitudo_mostrarmapa").html("Lat: "+total_gimy[0].latitud);
-      $("#latitudd_mostrarmapa").html("Lat: "+total_gimy[0].longitud);
-      $("#longitudo_mostrarmapa").html("Long: "+total_gimy[total_gimy.length-1].latitud);
-      $("#longitudd_mostrarmapa").html("Long: "+total_gimy[total_gimy.length-1].longitud);
+      $("#latitudo_mostrarmapa").html("Lat: "+puntos[0].latitud);
+      $("#latitudd_mostrarmapa").html("Lat: "+puntos[0].longitud);
+      $("#longitudo_mostrarmapa").html("Long: "+puntos[puntos.length-1].latitud);
+      $("#longitudd_mostrarmapa").html("Long: "+puntos[puntos.length-1].longitud);
       
       $("#descripcion_mostrarmapa").html(data_respuesta.descripcion);
       generar_mapa();
       
+      //Limpiar marcadores y polyline
       clearMarkers();
       markers.length = 0;
       flightPlanCoordinates.length = 0;
       // var pos = new google.maps.LatLng(data_respuesta.camino[0].latitud, data_respuesta.camino[0].longitud);
       // var pos1 = new google.maps.LatLng(data_respuesta.camino[data_respuesta.camino.length-1].latitud, data_respuesta.camino[data_respuesta.camino.length-1].longitud);
       
-      $.each(total_gimy, function(key,value)
+      $.each(puntos, function(key,value)
       {
         var pos = new google.maps.LatLng(value.latitud, value.longitud);
         addMarker(pos,map);
       });
       
+      // polyline (array)
       flightPlanCoordinates.length = 0;
       
       $.each(markers, function(key,value)

@@ -17,8 +17,23 @@ Cada usuario puede marcar los distintos puntos que conforman su ruta o sendero, 
 
 ### ECMA 6
 
+* Funciones de dirección. Sintaxis más corta en comparación con las expresiones de función.
+* Plantillas literales de strings que permiten expresiones incrustadas.
+* Se pueden utilizar cadenas multilínea e interpolación de cadenas con cadenas de la plantilla.
+* Diferencia entre let y var.
+Cuando let se utiliza dentro de un bloque, el alcance de los límites de la variable para ese bloque. El alcance de var está dentro de la función en la que se declara.
+
+`let name = "Bob", time = "today";`
+
+`Hello ${name}, how are you ${time}?`
 
 ### MongoDB
+
+`$ mkdir data`
+
+`$ echo 'mongod --bind_ip=$IP --dbpath=data --nojournal --rest "$@"' > mongod`
+
+`$ chmod a+x mongod`
 
 * Mongoose
 * Populations
