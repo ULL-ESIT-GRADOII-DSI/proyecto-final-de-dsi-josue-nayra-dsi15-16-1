@@ -102,7 +102,7 @@ app.get('/nuevo_camino',(request, response) => {
         console.log(`Guardado: ${nuevo_mapa}`);
     }).then(() => {
         Mapa
-        .findOne({nombre:request.query.nombre_mapa,descripcion: request.query.descripcion_mapa, _creator: id})
+        .findOne({nombre:request.query.nombre_mapa,descripcion: request.query.descripcion_mapa, _creator: id, camino: request.query.puntos})
         .populate('_creator')
         .exec(function(err,mapa){
             if(err) return console.log(err);

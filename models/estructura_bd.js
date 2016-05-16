@@ -62,7 +62,7 @@
                        console.log(`Saved: ${mapa1}`);
                     }).then(()=>{
                         Mapa
-                        .findOne({ nombre: "Los Tilos", descripcion: "Bonito sendero"})
+                        .findOne({ nombre: "Los Tilos", descripcion: "Bonito sendero", camino: '[{"latitud":28.723109102552225,"longitud":-17.830810546875},{"latitud":28.69902011148479,"longitud":-17.848663330078125},{"latitud":28.66890107414433,"longitud":-17.85003662109375},{"latitud":28.64479960910591,"longitud":-17.85003662109375},{"latitud":28.619487109380707,"longitud":-17.856903076171875},{"latitud":28.613459424004418,"longitud":-17.8692626953125},{"latitud":28.60622574490014,"longitud":-17.88848876953125}]'})
                         .populate('_creator')
                         .exec(function(err,mapa){
                             if(err) return console.log(err);
@@ -99,7 +99,7 @@
                        console.log(`Saved: ${mapa2}`);
                     }).then(()=>{
                         Mapa
-                        .findOne({ nombre: "La Caldera", descripcion: "Bonito sendero"})
+                        .findOne({ nombre: "La Caldera", descripcion: "Bonito sendero", camino: '[{"latitud":28.713205302552225,"longitud":-17.80810546875},{"latitud":28.69902011148479,"longitud":-17.848663330078125},{"latitud":28.66890107414433,"longitud":-17.85003662109375},{"latitud":28.64479960910591,"longitud":-17.85003662109375},{"latitud":28.619487109380707,"longitud":-17.856903076171875},{"latitud":28.613459424004418,"longitud":-17.8692626953125},{"latitud":28.60622574490014,"longitud":-17.88848876953125}]'})
                         .populate('_creator')
                         .exec(function(err,mapa){
                             if(err) return console.log(err);

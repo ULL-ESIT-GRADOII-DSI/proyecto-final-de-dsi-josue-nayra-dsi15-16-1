@@ -165,8 +165,9 @@ function addMarker(location, map) {
 $(document).ready(() => {
         
     //Hacemos la lectura del JSON
-    //$.get("senderos.json", botones_ejemplos, 'json');
-  
+    //Fichero geoJSON 
+    
+    generar_mapa();
     
     $.get("/mostrar_caminos", mostrando_senderos, 'json');
 
