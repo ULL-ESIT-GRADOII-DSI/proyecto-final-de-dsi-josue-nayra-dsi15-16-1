@@ -32,21 +32,11 @@ app.use(express.static(__dirname + '/public'));
 
 app.get('/', (request, response) => {     
   //console.log("Accediendo a index");
-    response.render('index', {title: "Senderos LaPalma", title1: "La Palma se siente", title2: "Descubre nuestros mejores senderos"});
+    response.render('index', {title: "Senderos LaPalma"});
 });
 
-//Imagenes
-/*app.get('/upload',(request, response) => {
-    upload.upload;
-});*/
 
-/*const upload = require('./models/upload.js');
-
-app.post('/upload', (request, response) => {
-    console.log("Accediendo a upload");
-    console.log("Imagen:"+request.query.imagen);
-    upload(request.query.imagen);
-});*/
+// Muestra todas las rutas (sección rutas) -----------------------------------------------------------------------
 
 app.get('/mostrar_caminos', (request, response) => {
     Mapa.find({}, function(err,data)
@@ -58,6 +48,9 @@ app.get('/mostrar_caminos', (request, response) => {
         }
     });
 });
+
+// Mostrar mapa -------------------------------------------------------------------------------------------------
+
 
 app.get('/mostrar_mapa_seleccionado',(request, response) => {
         console.log("Accedo a mapa");
@@ -78,13 +71,16 @@ app.get('/mostrar_mapa_seleccionado',(request, response) => {
                        if(err) console.log("Error:"+err);
                        else
                        {
-                           response.send({descripcion: data[0].descripcion, camino: data[0].camino, user_propietario: data_usuario[0].username, nombre_: data_usuario[0].nombre, apellidos_: data_usuario[0].apellidos, correo_propietario: data_usuario[0].correo_electronico});
+                           response.send({descripcion: data[0].descripcion, camino: data[0].camino, user_propietario: data_usuario[0].username});
                        }
                     });
                 }
             }
         });
 });
+
+// Guardar nueva ruta -------------------------------------------------------------------------------------------
+
 
 app.get('/nuevo_camino',(request, response) => { 
     console.log("Servidor:Guardando camino");
@@ -117,7 +113,7 @@ app.get('/nuevo_camino',(request, response) => {
     });            
 });
 
-// Usuarios -----------------------------------------------------------------------
+// Usuarios ---------------------------------------------------------------------------------------------------
 
 app.get('/login',(request, response) => {
     console.log("Datos recibidos en el servidor:");
@@ -163,7 +159,7 @@ app.get('/login',(request, response) => {
     
 });
 
-// ---------------------------------------------------------------------------------------
+// ---------------------------------------------------------------------------------------------------------------
 
 app.listen(app.get('port'), () => {
     console.log(`Node app is running at localhost: ${app.get('port')}` );
