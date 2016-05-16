@@ -71,7 +71,7 @@ app.get('/mostrar_mapa_seleccionado',(request, response) => {
                        if(err) console.log("Error:"+err);
                        else
                        {
-                           response.send({descripcion: data[0].descripcion, camino: data[0].camino, user_propietario: data_usuario[0].username});
+                           response.send({puntuacion: data[0].puntuacion, dificultad: data[0].dificultad, descripcion: data[0].descripcion, camino: data[0].camino, user_propietario: data_usuario[0].username});
                        }
                     });
                 }
@@ -94,6 +94,8 @@ app.get('/nuevo_camino',(request, response) => {
         nombre: request.query.nombre_mapa,
         descripcion: request.query.descripcion_mapa,
         camino: request.query.puntos,
+        dificultad: request.query.dificultad,
+        puntuacion: request.query.puntuacion,
         _creator: id
     });
     nuevo_mapa.save(function(err)
@@ -102,7 +104,7 @@ app.get('/nuevo_camino',(request, response) => {
         console.log(`Guardado: ${nuevo_mapa}`);
     }).then(() => {
         Mapa
-        .findOne({nombre:request.query.nombre_mapa,descripcion: request.query.descripcion_mapa, _creator: id, camino: request.query.puntos})
+        .findOne({nombre:request.query.nombre_mapa, dificultad: request.query.dificultad, puntuacion: request.query.puntuacion, descripcion: request.query.descripcion_mapa, _creator: id, camino: request.query.puntos})
         .populate('_creator')
         .exec(function(err,mapa){
             if(err) return console.log(err);

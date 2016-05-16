@@ -38,7 +38,8 @@ const mostrar_mapa = (datos) =>
       $("#latitudd_mostrarmapa").html("Lat: "+puntos[0].longitud);
       $("#longitudo_mostrarmapa").html("Long: "+puntos[puntos.length-1].latitud);
       $("#longitudd_mostrarmapa").html("Long: "+puntos[puntos.length-1].longitud);
-      
+      $("#dificultad_mostrarmapa").html(data_respuesta.dificultad);
+      $("#puntuacion_mostrarmapa").html(data_respuesta.puntuacion);
       $("#descripcion_mostrarmapa").html(data_respuesta.descripcion);
       generar_mapa();
       
@@ -239,7 +240,7 @@ $(document).ready(() => {
                 //var caminando_baby = JSON.stringify(markers);
                 console.log("User_actual:"+user_actual);
                 
-                $.get("/nuevo_camino",{usuario: user_actual, nombre_mapa: $("#nombre_mapa").val(), descripcion_mapa: $("#descripcion_mapa").val(), puntos: puntos_sendero}, data_respuesta => {
+                $.get("/nuevo_camino",{usuario: user_actual, dificultad: $("#dificultad_nuevomapa").val(), puntuacion: $("#puntuacion_nuevomapa").val(),nombre_mapa: $("#nombre_mapa").val(), descripcion_mapa: $("#descripcion_mapa").val(), puntos: puntos_sendero}, data_respuesta => {
                     console.log("Data_respuesta:"+data_respuesta.mensaje_respuesta_publicar);
                     $("#mensaje_aviso_publicar").fadeIn();
                     $("#mensaje_aviso_publicar").html(data_respuesta.mensaje_respuesta_publicar);
