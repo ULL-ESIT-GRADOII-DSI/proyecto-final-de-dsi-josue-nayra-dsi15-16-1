@@ -38,7 +38,13 @@ Cuando let se utiliza dentro de un bloque, el alcance de los límites de la vari
 * Mongoose
 * Populations
 
+### SASS
 
+Sass es una extensión de CSS que añade potencia y elegancia al lenguaje básico de CSS. 
+Se permite el uso de variables, reglas anidadas, mixins, importaciones en línea, etc. 
+Todo con una sintaxis totalmente compatible con CSS. Sass ayuda a mantener hojas de estilo bien organizadas.
+
+En este proyecto se ha aplicado esta herramienta en el archivo: style.sass
 
 --------
 
