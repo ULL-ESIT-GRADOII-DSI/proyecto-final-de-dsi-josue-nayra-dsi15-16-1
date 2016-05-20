@@ -5,23 +5,24 @@ const app = express();
 const path = require('path');
 const expressLayouts = require('express-ejs-layouts');
 
-//Conexión con Estructura de MongoDB
+var passport = require('passport');
+
 //Conexión con Estructura de MongoDB
 const Estructura = require('./models/estructura_bd.js');
 const User = Estructura.User;
 const Mapa = Estructura.Mapa;
-const Punto = Estructura.Punto;
+
 
 console.log("Estructura:"+Estructura);
 console.log("User:"+User);
 console.log("Mapa:"+Mapa);
-
 
 const mongoose = require('mongoose');
 
 const util = require('util');
 
 app.set('port', (process.env.PORT || 5000));
+
 
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
@@ -160,7 +161,15 @@ app.get('/login',(request, response) => {
     });
     
 });
-
+  
+  
+// app.get('/filtrar', (request, response) => {
+//   console.log("Filtro:"+;
+ 
+//   Mapa.find({ $or: [{ descripcion: /.*(request.query.filtro)+.*$/}, { nombre: /.*(request.query.filtro)+.*$/}] }, function(err, data) {
+       
+//   });
+// });
 // ---------------------------------------------------------------------------------------------------------------
 
 app.listen(app.get('port'), () => {

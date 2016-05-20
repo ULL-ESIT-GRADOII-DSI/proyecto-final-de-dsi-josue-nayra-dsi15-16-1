@@ -20,7 +20,6 @@
         <!--<li><a data-scroll data-options="easing: easeOutQuart" href="#contact">Contact</a></li>-->
         <li id="generar_mapa"><a data-scroll data-options="easing: easeOutQuart" href="#contact">Publica tu sendero</a></li>
         <li><a data-scroll data-options="easing: easeOutQuart" data-toggle="modal" data-target="#myModal"><i class="icon-user "></i>   Login </a></li>
-        
       </ul>
     </div>
     <!--/.nav-collapse --> 
@@ -148,10 +147,32 @@
 	<div class="container">
         <div class="row">
             <h2 class="heading wow fadeInUp" data-wow-duration="0.8s" data-wow-delay="0.8s">Rutas</h2>
-            <div id="nuestros_senderos"></div>
-            
         </div>
-    </div>
+        <div class="row">
+            <div class="col-md-2"></div>
+            <div class="col-md-10">
+              <div class="col-md-5">
+                <div class="btn-group" role="group" aria-label="...">
+                  <button type="button" class="btn btn-default" id="facil">Fácil</button>
+                  <button type="button" class="btn btn-default" id="media">Media</button>
+                  <button type="button" class="btn btn-default" id="dificil">Difícil</button>
+                </div>
+              </div>
+              <div class="col-md-5">
+              <form class="form-search">
+                  <div class="input-append">
+                      <input type="text" id="filtro">
+                      <button type="submit" class="btn" id="filtrar">Search</button>
+                  </div>
+              </form>
+              </div>
+            </div>
+        </div>
+        <hr>
+        <div class="row">
+          <div id="nuestros_senderos"></div>
+        </div>    
+  </div>
 </section>
 
 <!------------------------------------------------------------------------------------------------------------------------------------>
@@ -188,7 +209,7 @@
                               <option>3</option>
                               <option>4</option>
                               <option>5</option>
-                              <option>6</option>
+                              <option>6</option> 
                               <option>7</option>
                               <option>8</option>
                               <option>9</option>

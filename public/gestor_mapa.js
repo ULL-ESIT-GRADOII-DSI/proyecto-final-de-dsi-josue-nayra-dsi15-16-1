@@ -29,6 +29,7 @@ const mostrar_mapa = (datos) =>
   $.get('/mostrar_mapa_seleccionado',{ nombre_mapa: datos}, data_respuesta => {
       var puntos = JSON.parse(data_respuesta.camino[0]);
       
+      $("#guardar_camino").css("display","none");
       $("#publicar").css("display","none");
       $("#mostrar").fadeIn();
       
@@ -175,6 +176,7 @@ $(document).ready(() => {
     $("#generar_mapa").click(function(event)
     {
       event.preventDefault();
+      $("#guardar_camino").fadeIn();
       $("#contact").show();
       $("#mostrar").css("display","none");
       $("#publicar").show();
@@ -310,6 +312,12 @@ $(document).ready(() => {
       				.removeAttr("data-dismiss");
                       
       });
+      
+      //Formulario de búsqueda
+      // $("#filtrar").click(function(event)
+      // {
+      //     $.get("/filtrar", { filtro: $("#filtro").val() }, mostrando_senderos, 'json');
+      // });
 });
 
 })();
