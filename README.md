@@ -6,14 +6,28 @@ En este proyecto se ha desarrollado una aplicación para almacenar y compartir s
 La aplicación permite compartir tus propios senderos, almacenándolos con tu cuenta de usuario. 
 Cada usuario puede marcar los distintos puntos que conforman su ruta o sendero, sobre el mismo mapa de la isla, para posteriormente compartirlo.
 
+--------
+
+## Despliegue
+
+
+--------
 
 ## Herramientas utilizadas
 
+### API de Google Maps
+
+Herramienta ofrecida por Google para desarrolladores que permite la comunicación con los servicios de Google y su integración con otros servicios. 
+En este proyecto la API ha sido utilizada para almacenar las rutas y senderos que el usuario ha marcado sobre el propio mapa, en este caso de la isla de la Palma.
+Por otro lado, también se hace un volcado de los senderos que tiene cada usuario para su posterior visita.
+
 ### NodeJS
 
+Node.js es un entorno en tiempo de ejecución multiplataforma, de código abierto, para la capa del servidor basado en el lenguaje de programación ECMAScript, asíncrono, con I/O de datos en una arquitectura orientada a eventos y basado en el motor V8 de Google.
 
 ### Express
 
+Express es una infraestructura de aplicaciones web Node.js mínima y flexible que proporciona un conjunto sólido de características para las aplicaciones web y móviles.
 
 ### ECMA 6
 
@@ -45,6 +59,23 @@ Se permite el uso de variables, reglas anidadas, mixins, importaciones en línea
 Todo con una sintaxis totalmente compatible con CSS. Sass ayuda a mantener hojas de estilo bien organizadas.
 
 En este proyecto se ha aplicado esta herramienta en el archivo: style.sass
+
+### Gulp
+
+Sistema que permite automatizar tareas de desarrollo. Permite administrar y controlar todas las tareas desde un mismo lugar.
+
+### Browser-sync
+
+Herramienta que permite a los desarrolladores mantener su navegador web actualizado mientras realiza cambios en la configuración en diferentes ordenadores o sistemas operativos.
+
+* [Más información](https://www.browsersync.io/)
+
+### Expresiones regulares
+
+En este proyecto se han utilizado expresiones regulares para el filtro de búsqueda.
+El usuario podrá especificar la dificultad y alguna palabra clave con la desee realizar la búsqueda.
+
+
 
 --------
 

@@ -1,0 +1,28 @@
+{
+  "name": "LaPalmaTrail",
+  "description": "gestor de senderos en la palma",
+  "main": "",
+  "authors": [
+    "Josué Toledo",
+    "Nayra Rodríguez"
+  ],
+  "license": "ISC",
+  "keywords": [
+    "javascript",
+    "mongodb",
+    "moongose",
+    "express"
+  ],
+  "homepage": "https://github.com/ULL-ESIT-GRADOII-DSI/proyecto-final-Josue-Nayra",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "express": "^4.13.4",
+    "jquery": "^2.2.3"
+  }
+}
