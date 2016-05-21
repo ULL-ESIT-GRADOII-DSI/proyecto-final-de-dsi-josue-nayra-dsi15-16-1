@@ -35,6 +35,44 @@ app.get('/', (request, response) => {
     response.render('index', {title: "Senderos LaPalma"});
 });
 
+//---------------------------------------------------------------------------------------------
+
+//  Página personal de google developer (Google cloud Plataform)
+//  https://console.cloud.google.com/apis/credentials/oauthclient/562518393680-l8316pdco37a1nujqh1oseq41f3u6di8.apps.googleusercontent.com?project=senderos-la-palma
+  
+
+var passport = require('passport');
+var GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
+
+// Use the GoogleStrategy within Passport.
+//   Strategies in Passport require a `verify` function, which accept
+//   credentials (in this case, an accessToken, refreshToken, and Google
+//   profile), and invoke a callback with a user object.
+passport.use(new GoogleStrategy({
+    clientID: "562518393680-l8316pdco37a1nujqh1oseq41f3u6di8.apps.googleusercontent.com",
+    clientSecret: "VhcdcgzJCMgWKYU1MMvk8gyL",
+    // callbackURL: "http://www.example.com/auth/google/callback",
+    // callbackURL: "https://dsi-1516-alu0100406122.c9users.io/?_c9_id=livepreview1&_c9_host=https://ide.c9.io"
+    callbackURL: "http://localhost:3000/auth/google/callback"
+  },
+  function(accessToken, refreshToken, profile, done) {
+       User.findOrCreate({ googleId: profile.id }, function (err, user) {
+         return done(err, user);
+       });
+  }
+));
+
+
+app.get('/auth/google',
+  passport.authenticate('google', { scope: ['https://www.googleapis.com/auth/plus.login'] }));
+
+app.get('/auth/google/callback', 
+  passport.authenticate('google', { failureRedirect: '/login' }),
+  function(req, res) {
+    res.redirect('/');
+});
+
+
 
 // Muestra todas las rutas (sección rutas) -----------------------------------------------------------------------
 
