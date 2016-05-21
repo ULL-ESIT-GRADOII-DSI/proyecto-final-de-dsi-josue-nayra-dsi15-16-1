@@ -19,8 +19,11 @@
 
         <!--<li><a data-scroll data-options="easing: easeOutQuart" href="#contact">Contact</a></li>-->
         <li id="generar_mapa"><a data-scroll data-options="easing: easeOutQuart" href="#contact">Publica tu sendero</a></li>
-        <li><a data-scroll data-options="easing: easeOutQuart" data-toggle="modal" data-target="#myModal"><i class="icon-user "></i>   Login </a></li>
-        
+        <li><a data-scroll data-options="easing: easeOutQuart" data-toggle="modal" data-target="#myModal">Login local</a></li>
+        <li><a data-scroll data-options="easing: easeOutQuart" data-toggle="modal" data-target="#myModal1">Register</a></li>
+        <!--<li><a data-scroll data-options="easing: easeOutQuart" data-toggle="modal" data-target="#myModal">Login Google</a></li>-->
+        <!--<li><a data-scroll data-options="easing: easeOutQuart" data-toggle="modal" data-target="#myModal">Login Facebook</a></li>-->
+        <!--<li><a data-scroll data-options="easing: easeOutQuart" data-toggle="modal" data-target="#myModal">Login Twitter</a></li>-->
       </ul>
     </div>
     <!--/.nav-collapse --> 
@@ -34,28 +37,28 @@
 <!--<button class="btn btn-primary" data-toggle="modal" data-target="#myModal">-->
 <!--    Log in-->
 <!--</button>-->
-
+<div id="login">
 <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 	<div class="modal-dialog">
 		<div class="modal-content">
 
 			<div class="modal-header">
 				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-				<h4 class="modal-title" id="myModalLabel">Log in</h4>
+				  <h4 class="modal-title" id="myModalLabel"></h4>
 			</div> <!-- /.modal-header -->
   
 			<div class="modal-body">
 				<form role="form">
 					<div class="form-group">
 						<div class="input-group">
-							<input type="text" class="form-control" id="uLogin" placeholder="Login">
+							<input type="text" class="form-control" id="uLogin" name="email" placeholder="Login">
 							<label for="uLogin" class="input-group-addon glyphicon glyphicon-user"></label>
 						</div>
 					</div> <!-- /.form-group -->
 
 					<div class="form-group">
 						<div class="input-group">
-							<input type="password" class="form-control" id="uPassword" placeholder="Password">
+							<input type="password" class="form-control" id="uPassword" name="password" placeholder="Password">
 							<label for="uPassword" class="input-group-addon glyphicon glyphicon-lock"></label>
 						</div> <!-- /.input-group -->
 					</div> <!-- /.form-group -->
@@ -85,9 +88,58 @@
 		</div><!-- /.modal-content -->
 	</div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
+</div>
+<!--------------------------------------------------------------REGISTER-------------------------------------------------------------------------------------------------------------->
+<div id="registro">
+<div class="modal fade" id="myModal1" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
 
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+				  <h4 class="modal-title" id="myModalLabel">Register</h4>
+			</div> <!-- /.modal-header -->
 
+			<div class="modal-body">
+				<form role="form">
+					<div class="form-group">
+						<div class="input-group">
+							<input type="text" class="form-control" id="uRegister" name="email" placeholder="Login">
+							<label for="uRegister" class="input-group-addon glyphicon glyphicon-user"></label>
+						</div>
+					</div> <!-- /.form-group -->
 
+					<div class="form-group">
+						<div class="input-group">
+							<input type="password" class="form-control" id="uRegisterPassword" name="password" placeholder="Password">
+							<label for="uRegisterPassword" class="input-group-addon glyphicon glyphicon-lock"></label>
+						</div> <!-- /.input-group -->
+					</div> <!-- /.form-group -->
+					
+					<div class="checkbox">
+						<label>
+							<input type="checkbox"> Remember me
+						</label>
+					</div> <!-- /.checkbox -->
+				</form>
+
+			</div> <!-- /.modal-body -->
+
+			<div class="modal-footer">
+				<button class="form-control btn btn-primary" id="loguearse">Register</button>
+
+				<div class="progress">
+					<div class="progress-bar progress-bar-primary" role="progressbar" aria-valuenow="1" aria-valuemin="1" aria-valuemax="100" style="width: 0%;">
+						<span class="sr-only">progress</span>
+					</div>
+				</div>
+			</div> <!-- /.modal-footer -->
+			
+			
+		</div><!-- /.modal-content --->
+	</div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+</div>
 
 <!------------------------------------------------------------------------------------------------------------------------------------>
 <!-- Slider inicial -->
@@ -150,10 +202,42 @@
 	<div class="container">
         <div class="row">
             <h2 class="heading wow fadeInUp" data-wow-duration="0.8s" data-wow-delay="0.8s">Rutas</h2>
-            <div id="nuestros_senderos"></div>
-            
         </div>
-    </div>
+        <div class="col-md-12">
+            <div class="col-md-11"></div>
+            <div class="col-md-1">
+              <button id="aplicar_filtro" type="submit" class="btn main-btn wow bounceIn pull-right" data-wow-duration="1s" data-wow-delay="1s">Filtrar</button>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+              <div id="seccion_filtro" style="display:none">
+                <div class="col-md-6">
+                  Dificultad:
+                  <div class="btn-group" id="dificultad_filtro" style="margin-left:5px;" role="group" aria-label="...">
+                    <button type="button" class="btn btn-default" value="facil">Facil</button>
+                    <button type="button" class="btn btn-default" value="media">Media</button>
+                    <button type="button" class="btn btn-default" value="dificil">Dificil</button>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                <form class="form-search">
+                    <div class="input-append">
+                        Buscar por:
+                        <input type="text" id="filtro">
+                        <button id="filtrar" type="submit" class="btn btn-success bounceIn pull-right" data-wow-duration="1s" data-wow-delay="1s">Buscar</button>
+                    </div>
+                </form>
+                </div>
+              </div>
+            </div>
+        </div>
+        <h4 id="respuesta_mostrandosenderos" style="display:none" class="pull-right"></h4>
+        <hr>
+        <div class="row">
+          <div id="nuestros_senderos"></div>
+        </div>    
+  </div>
 </section>
 
 <!------------------------------------------------------------------------------------------------------------------------------------>
@@ -182,6 +266,30 @@
                             <input type="text" class="form-control" name="nombre_mapa" autocomplete="off" id="nombre_mapa" placeholder="Nombre del mapa">
                       		</div>
   
+                          <div class="form-group">
+                            <select class="form-control" id="puntuacion_nuevomapa">
+                              <option>Puntúe el sendero</option>
+                              <option>1</option>
+                              <option>2</option>
+                              <option>3</option>
+                              <option>4</option>
+                              <option>5</option>
+                              <option>6</option> 
+                              <option>7</option>
+                              <option>8</option>
+                              <option>9</option>
+                              <option>10</option>
+                            </select>
+                          </div>
+                        <div class="form-group">
+                          <select class="form-control" id="dificultad_nuevomapa">
+                            <option>Dificultad del sendero</option>
+                            <option>Facil</option>
+                            <option>Media</option>
+                            <option>Dificil</option>
+                          </select>
+                        </div>
+                        
                           <div class="form-group">
                                 <input type="text" class="form-control" name="autor_mapa" autocomplete="off" id="autor_mapa" placeholder="Autor del mapa">
                           </div>

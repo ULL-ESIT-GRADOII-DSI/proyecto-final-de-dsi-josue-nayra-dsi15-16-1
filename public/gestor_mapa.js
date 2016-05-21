@@ -10,6 +10,7 @@ var flightPlanCoordinates = [];
 var flightPath;
 var puntos_intermedios = [];
 var user_actual;
+var boton_dificultad;
 
 const senderosTemplate = `
     <% _.each(senderos, (sendero) => { %>
@@ -35,6 +36,7 @@ const mostrar_mapa = (datos) =>
   $.get('/mostrar_mapa_seleccionado',{ nombre_mapa: datos}, data_respuesta => {
       var puntos = JSON.parse(data_respuesta.camino[0]);
       
+      $("#guardar_camino").css("display","none");
       $("#publicar").css("display","none");
       $("#mostrar").fadeIn();
       
@@ -44,7 +46,8 @@ const mostrar_mapa = (datos) =>
       $("#latitudd_mostrarmapa").html("Lat: "+puntos[0].longitud);
       $("#longitudo_mostrarmapa").html("Long: "+puntos[puntos.length-1].latitud);
       $("#longitudd_mostrarmapa").html("Long: "+puntos[puntos.length-1].longitud);
-      
+      $("#dificultad_mostrarmapa").html(data_respuesta.dificultad);
+      $("#puntuacion_mostrarmapa").html(data_respuesta.puntuacion);
       $("#descripcion_mostrarmapa").html(data_respuesta.descripcion);
       generar_mapa();
       
@@ -93,8 +96,14 @@ const mostrando_senderos = (datos) =>
 {
     console.log("Mapas:"+datos.mapas);
     console.log("Mensaje:"+datos.mensaje_respuesta_peticionsenderos);
-    $("#nuestros_senderos").html(_.template(senderosTemplate, {senderos: datos.mapas}));
+    if(datos.mensaje_respuesta_peticionsenderos == "No se han encontrado senderos")
+    {
+      $("#respuesta_mostrandosenderos").fadeIn();
+      $("#respuesta_mostrandosenderos").html(datos.mensaje_respuesta_peticionsenderos);  
+    }
     
+    $("#nuestros_senderos").html(_.template(senderosTemplate, {senderos: datos.mapas}));
+
     $('p.senderos').each( (_,y) => {
       $(y).click( () => { 
         $("#contact").show();
@@ -172,7 +181,7 @@ $(document).ready(() => {
         
     //Hacemos la lectura del JSON
     //Fichero geoJSON 
-    
+          
     generar_mapa();
     
     $.get("/mostrar_caminos", mostrando_senderos, 'json');
@@ -180,6 +189,7 @@ $(document).ready(() => {
     $("#generar_mapa").click(function(event)
     {
       event.preventDefault();
+      $("#guardar_camino").fadeIn();
       $("#contact").show();
       $("#mostrar").css("display","none");
       $("#publicar").show();
@@ -245,7 +255,7 @@ $(document).ready(() => {
                 //var caminando_baby = JSON.stringify(markers);
                 console.log("User_actual:"+user_actual);
                 
-                $.get("/nuevo_camino",{usuario: user_actual, nombre_mapa: $("#nombre_mapa").val(), descripcion_mapa: $("#descripcion_mapa").val(), puntos: puntos_sendero}, data_respuesta => {
+                $.get("/nuevo_camino",{usuario: user_actual, dificultad: ($("#dificultad_nuevomapa").val()).toLowerCase(), puntuacion: $("#puntuacion_nuevomapa").val(),nombre_mapa: $("#nombre_mapa").val(), descripcion_mapa: $("#descripcion_mapa").val(), puntos: puntos_sendero}, data_respuesta => {
                     console.log("Data_respuesta:"+data_respuesta.mensaje_respuesta_publicar);
                     $("#mensaje_aviso_publicar").fadeIn();
                     $("#mensaje_aviso_publicar").html(data_respuesta.mensaje_respuesta_publicar);
@@ -254,26 +264,25 @@ $(document).ready(() => {
         }
      });
     
-      $('.modal-footer button').click(function(event){
+      $('#login .modal-footer button').click(function(event){
         event.preventDefault();
       		var button = $(this);
           
           console.log("Nombre:"+$("#uLogin").val());
           console.log("Password:"+$("#uPassword").val());
-          $.get("/login",{nombre_usuario: $("#uLogin").val(), password_usuario: $("#uPassword").val()}, data_respuesta => {
-                console.log("Data_respuesta:"+data_respuesta);
-                console.log("Id del usuario logueado:"+data_respuesta.id_usuario);
-                console.log("Mensaje de respuesta:"+data_respuesta.mensaje_respuesta_login);
+          $.post("/login",{email: $("#uLogin").val(), password: $("#uPassword").val()}, data_respuesta => {
+                console.log("Data_respuesta:"+data_respuesta.message);
+                $("#login #myModalLabel").html(data_respuesta.message);
+                
                 user_actual = data_respuesta.id_usuario;
                 //Rellenamos inputs
-                $("#email").val(data_respuesta.email);
-                $("#autor_mapa").val(data_respuesta.autor);
+                $("#autor_mapa").val(data_respuesta.email);
                 
               if ( button.attr("data-dismiss") != "modal" ){
-          			var inputs = $('form input');
-          			var title = $('.modal-title');
-          			var progress = $('.progress');
-          			var progressBar = $('.progress-bar');
+          			var inputs = $('#login form input');
+          			var title = $('#login .modal-title');
+          			var progress = $('#login .progress');
+          			var progressBar = $('#login .progress-bar');
           
           			inputs.attr("disabled", "disabled");
           			button.hide();
@@ -296,12 +305,12 @@ $(document).ready(() => {
       	
       	});
 
-      $('#myModal').on('hidden.bs.modal', function (e) {
+      $('#login #myModal').on('hidden.bs.modal', function (e) {
         e.preventDefault();
-      		var inputs = $('form input');
-      		var title = $('.modal-title');
-      		var progressBar = $('.progress-bar');
-      		var button = $('.modal-footer button');
+      		var inputs = $('#login form input');
+      		var title = $('#login .modal-title');
+      		var progressBar = $('#login .progress-bar');
+      		var button = $('#login .modal-footer button');
       
       		inputs.removeAttr("disabled");
       
@@ -314,6 +323,111 @@ $(document).ready(() => {
       				.text("Ok")
       				.removeAttr("data-dismiss");
                       
+      });
+      
+      
+      //--------------------------------REGISTER-----------------------------------
+      $('#registro .modal-footer').click(function(event){
+              event.preventDefault();
+              console.log("Registro");
+            		var button = $(this);
+                
+                console.log("Nombre:"+$("#uRegister").val());
+                console.log("Password:"+$("#uRegisterPassword").val());
+                $.post("/signup",{email: $("#uRegister").val(), password: $("#uRegisterPassword").val()}, data_respuesta => {
+                      console.log("Data_respuesta:"+data_respuesta.message);
+                      console.log("Autor del mapa:"+data_respuesta.email);
+                      $("#registro #myModalLabel").html(data_respuesta.message);
+                      
+                      user_actual = data_respuesta.id_usuario;
+                      //Rellenamos inputs
+                      $("#autor_mapa").val(data_respuesta.email);
+
+                    if ( button.attr("data-dismiss") != "modal" ){
+                			var inputs = $('#registro form input');
+                			var title = $('#registro .modal-title');
+                			var progress = $('#registro .progress');
+                			var progressBar = $('#registro .progress-bar');
+                
+                			inputs.attr("disabled", "disabled");
+                			button.hide();
+                			progress.show();
+                			progressBar.animate({width : "100%"}, 100);
+                			progress.delay(1000)
+                					.fadeOut(600);
+                			button
+                					.removeClass("btn-primary")
+                					.addClass("btn-success")
+                    				.blur()
+                					.delay(1600)
+                					.fadeIn(function(){
+                						title.text(data_respuesta.mensaje_respuesta_login);
+                						button.attr("data-dismiss", "modal");
+                					});
+                		}
+                  
+                });
+            	
+            	});
+      
+            $('#registro #myModal').on('hidden.bs.modal', function (e) {
+              e.preventDefault();
+            		var inputs = $('#registro form input');
+            		var title = $('#registro .modal-title');
+            		var progressBar = $('#registro .progress-bar');
+            		var button = $('#registro .modal-footer button');
+            
+            		inputs.removeAttr("disabled");
+            
+            		title.text("Registro");
+            
+            		progressBar.css({ "width" : "0%" });
+            
+            		button.removeClass("btn-success")
+            				.addClass("btn-primary")
+            				.text("Ok")
+            				.removeAttr("data-dismiss");
+                            
+            });
+            
+      $("#aplicar_filtro").click(function()
+      {
+          $("#aplicar_filtro").hide();
+          setTimeout(function()
+          {
+            $("#seccion_filtro").fadeIn();
+          },
+          450);
+      });
+      
+      // Formulario de búsqueda
+      $(".btn-group > button").click(function(event){
+          event.preventDefault();
+          console.log("Group button clicked:"+$(this).val());
+          boton_dificultad = $(this).val();
+          $(this).addClass("active").siblings().removeClass("active");
+      });
+      
+      $("#filtrar").click(function(event)
+      {
+        event.preventDefault();
+        $("#respuesta_mostrandosenderos").fadeOut();  
+        
+        if(boton_dificultad == null)
+        {
+            //console.log("Sin dificultad");
+            $.get("/filtrar", { filtro: $("#filtro").val() }, mostrando_senderos, 'json'); 
+            boton_dificultad = null;
+        }
+        else
+        {
+            //console.log("Con dificultad");
+            console.log("Dificultad yeah baby:"+boton_dificultad);
+            $.get("/filtrar", { filtro: $("#filtro").val(), dificultad: boton_dificultad }, mostrando_senderos, 'json');
+            boton_dificultad = null;
+        }
+        $(".btn-group > button").removeClass("active");
+        $("#filtro").val(" ");
       });
 });
 

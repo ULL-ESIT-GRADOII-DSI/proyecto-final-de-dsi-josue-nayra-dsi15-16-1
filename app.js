@@ -4,35 +4,54 @@ var express = require('express');
 const app = express();
 const path = require('path');
 const expressLayouts = require('express-ejs-layouts');
-
-//Conexión con Estructura de MongoDB
-//Conexión con Estructura de MongoDB
-const Estructura = require('./models/estructura_bd.js');
-const User = Estructura.User;
-const Mapa = Estructura.Mapa;
-const Punto = Estructura.Punto;
-
-console.log("Estructura:"+Estructura);
-console.log("User:"+User);
-console.log("Mapa:"+Mapa);
-
-
+const cookieParser = require('cookie-parser');
+const session = require('express-session');
+const morgan = require('morgan');
 const mongoose = require('mongoose');
-
+const bodyParser = require('body-parser');
+const passport = require('passport');
+const flash = require('connect-flash');
 const util = require('util');
-
-app.set('port', (process.env.PORT || 5000));
 
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 app.use(expressLayouts);
 
 app.use(express.static(__dirname + '/public'));
+app.set('port', (process.env.PORT || 5000));
+
+
+//Conexión mongoDB
+const conexionBD = require('./config/database.js');
+mongoose.connect(conexionBD.url);
+
+//Importando esquemas de BD
+const Estructura = require('./models/estructura_bd.js');
+const UserSchema = Estructura.User;
+const MapaSchema = Estructura.Mapa;
+console.log("Estructura:"+Estructura);
+console.log("User:"+UserSchema);
+console.log("Mapa:"+MapaSchema);
+const User = mongoose.model("User", UserSchema);
+const Mapa = mongoose.model("Mapa", MapaSchema);
+
+require('./config/passport')(passport);
+app.use(morgan('dev'));
+app.use(cookieParser());
+app.use(bodyParser.urlencoded({extended: false}));
+app.use(session({secret: 'anystringoftext',
+				 saveUninitialized: true,
+				 resave: true}));
+
+app.use(passport.initialize());
+app.use(passport.session()); // persistent login sessions
+app.use(flash()); // use connect-flash for flash messages stored in session
+
 
 
 app.get('/', (request, response) => {     
   //console.log("Accediendo a index");
-    response.render('index', {title: "Senderos LaPalma"});
+    response.render('index', {title: "Senderos LaPalma", message: "Login"});
 });
 
 //---------------------------------------------------------------------------------------------
@@ -109,7 +128,7 @@ app.get('/mostrar_mapa_seleccionado',(request, response) => {
                        if(err) console.log("Error:"+err);
                        else
                        {
-                           response.send({descripcion: data[0].descripcion, camino: data[0].camino, user_propietario: data_usuario[0].username});
+                           response.send({puntuacion: data[0].puntuacion, dificultad: data[0].dificultad, descripcion: data[0].descripcion, camino: data[0].camino, user_propietario: data_usuario[0].username});
                        }
                     });
                 }
@@ -132,6 +151,8 @@ app.get('/nuevo_camino',(request, response) => {
         nombre: request.query.nombre_mapa,
         descripcion: request.query.descripcion_mapa,
         camino: request.query.puntos,
+        dificultad: request.query.dificultad,
+        puntuacion: request.query.puntuacion,
         _creator: id
     });
     nuevo_mapa.save(function(err)
@@ -140,7 +161,7 @@ app.get('/nuevo_camino',(request, response) => {
         console.log(`Guardado: ${nuevo_mapa}`);
     }).then(() => {
         Mapa
-        .findOne({nombre:request.query.nombre_mapa,descripcion: request.query.descripcion_mapa, _creator: id, camino: request.query.puntos})
+        .findOne({nombre:request.query.nombre_mapa, dificultad: request.query.dificultad, puntuacion: request.query.puntuacion, descripcion: request.query.descripcion_mapa, _creator: id, camino: request.query.puntos})
         .populate('_creator')
         .exec(function(err,mapa){
             if(err) return console.log(err);
@@ -153,50 +174,79 @@ app.get('/nuevo_camino',(request, response) => {
 
 // Usuarios ---------------------------------------------------------------------------------------------------
 
-app.get('/login',(request, response) => {
-    console.log("Datos recibidos en el servidor:");
-    console.log("Nombre de usuario:"+request.query.nombre_usuario);
-    console.log("Password de usuario:"+request.query.password_usuario);
-    User.find({username: request.query.nombre_usuario}, function(err, data)
-    {
-        if(err)
-        {
-            console.error("Se ha producido un error->"+err);
-        }
-        else
-        {
-            if(data.length > 0)
-            {
-                response.send({id_usuario: data[0]._id, autor: data[0].username, mensaje_respuesta_login: "Usuario correcto"});    
-            }
-            else
-            {
-                let nuevo_usuario = new User({
-                    username: request.query.nombre_usuario,
-                    password: request.query.password
-                });
-                nuevo_usuario.save(function(err){
-                    if(err) return console.log(err);
-                    else {
-                        console.log(`Nuevo usuario creado: ${nuevo_usuario}`);
-                    }
-                }).then(()=>{
-                    User 
-                        .findOne({username: request.query.nombre_usuario, password: request.query.password})
-                        .exec(function(err,usuario){
-                            if(err) return console.log(err);
-                            else {
-                                response.send({id_usuario: usuario._id, autor: usuario.username, mensaje_respuesta_login: "Nuevo usuario"});   
-                            }
-                        })
-                        
-                });
-            }
-        }
-    });
-    
+app.get('/login', function(req, res){
+	//res.redirect('index.ejs', { message: req.flash('loginMessage') });
+    res.send({message: req.flash('loginMessage')});
 });
 
+app.post('/login', passport.authenticate('local-login', {
+    successRedirect: '/profile_login',
+    failureRedirect: '/login',
+    failureFlash: true
+}));  
+  
+app.get('/signup', function(req, res){
+	//res.render('signup.ejs', { message: req.flash('signupMessage') });
+    res.send({message: req.flash('signupMessage')});
+});
+
+app.post('/signup', passport.authenticate('local-signup', {
+	successRedirect: '/profile_register',
+	failureRedirect: '/signup',
+	failureFlash: true
+}));
+
+app.get('/profile_login', isLoggedIn, function(req, res){
+	 console.log("Yendo a profile register:"+req.user._id);
+	 console.log("emaikkkkkk:"+req.user.local.username);
+	 res.send({message: "Usuario correcto", id_usuario: req.user._id, email: req.user.local.username});
+	//res.render('profile.ejs', { user: req.user });
+});
+
+app.get('/profile_register', isLoggedIn, function(req, res){
+	 console.log("Yendo a profile login:"+req.user._id);
+	 res.send({message: "Usuario registrado" , id_usuario: req.user._id, email: req.user.local.username});
+	//res.render('profile.ejs', { user: req.user });
+});
+
+function isLoggedIn(req, res, next) {
+    console.log("Req,isAuthenticated:"+req.isAuthenticated());
+	if(req.isAuthenticated()){
+		return next();
+	}
+
+	res.redirect('/login');
+}
+
+app.get('/filtrar', (request, response) => {
+  console.log("Filtro:"+request.query.filtro);
+  console.log("Filtro dificultad:"+request.query.dificultad);
+//  odel.findOne({name: new RegExp('^'+name+'$', "i")}
+    console.log("Filtrando");
+    if(!request.query.dificultad)
+    {
+          Mapa.find({ $or: [{ descripcion: new RegExp('\s*^.*\s*('+request.query.filtro+')+\s*.*\s*$', "i")}, { nombre: new RegExp('^.*('+request.query.filtro+')+.*$', "i")}]}, function(err, data) {
+             if(err) return console.log(err);
+             console.log("Caminos:"+data.length); 
+             if(data.length > 0)
+                response.send({mapas:data, mensaje_respuesta_peticionsenderos: "Senderos encontrados"});
+             else
+                response.send({mensaje_respuesta_peticionsenderos: "No se han encontrado senderos"});
+              
+          });
+    }
+    else
+    {
+          Mapa.find({ $or: [{ descripcion: new RegExp('\s*^.*\s*('+request.query.filtro+')+\s*.*\s*$', "i")}, { nombre: new RegExp('^.*('+request.query.filtro+')+.*$', "i")}], dificultad: request.query.dificultad }, function(err, data) {
+             if(err) return console.log(err);
+             console.log("Caminos:"+data.length); 
+             if(data.length > 0)
+                response.send({mapas:data, mensaje_respuesta_peticionsenderos: "Senderos encontrados"});
+             else
+                response.send({mensaje_respuesta_peticionsenderos: "No se han encontrado senderos"});
+          });
+    }   
+});
 // ---------------------------------------------------------------------------------------------------------------
 
 app.listen(app.get('port'), () => {
