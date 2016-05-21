@@ -29,9 +29,9 @@ mongoose.connect(conexionBD.url);
 const Estructura = require('./models/estructura_bd.js');
 const UserSchema = Estructura.User;
 const MapaSchema = Estructura.Mapa;
-console.log("Estructura:"+Estructura);
-console.log("User:"+UserSchema);
-console.log("Mapa:"+MapaSchema);
+//console.log("Estructura:"+Estructura);
+//console.log("User:"+UserSchema);
+//console.log("Mapa:"+MapaSchema);
 const User = mongoose.model("User", UserSchema);
 const Mapa = mongoose.model("Mapa", MapaSchema);
 
@@ -39,7 +39,7 @@ require('./config/passport')(passport);
 app.use(morgan('dev'));
 app.use(cookieParser());
 app.use(bodyParser.urlencoded({extended: false}));
-app.use(session({secret: 'anystringoftext',
+app.use(session({secret: 'proyecto-nayra-josue',
 				 saveUninitialized: true,
 				 resave: true}));
 
@@ -50,7 +50,7 @@ app.use(flash()); // use connect-flash for flash messages stored in session
 
 
 app.get('/', (request, response) => {     
-  //console.log("Accediendo a index");
+  ////console.log("Accediendo a index");
     response.render('index', {title: "Senderos LaPalma", message: "Login"});
 });
 
@@ -60,7 +60,7 @@ app.get('/', (request, response) => {
 app.get('/mostrar_caminos', (request, response) => {
     Mapa.find({}, function(err,data)
     {
-        if(err)  console.log("Error:"+err);
+        if(err)  console.error("Error:"+err);
         else
         {
             response.send({mapas: data, mensaje_respuesta_peticionsenderos: "Nuestros senderos"});   
@@ -72,25 +72,25 @@ app.get('/mostrar_caminos', (request, response) => {
 
 
 app.get('/mostrar_mapa_seleccionado',(request, response) => {
-        console.log("Accedo a mapa");
-        console.log("Nombre:"+request.query.nombre_mapa);
+        //console.log("Accedo a mapa");
+        //console.log("Nombre:"+request.query.nombre_mapa);
         
         Mapa.find({nombre: request.query.nombre_mapa}, function(err,data)
         {
-            console.log("Data:"+data);
-            if(err) console.log("Error:"+err);
+            //console.log("Data:"+data);
+            if(err) console.error("Error:"+err);
             else
             {
                 if(data.length > 0)
                 {   
                     //const id = mongoose.Types.ObjectId(data._creator);
-                    console.log("Data_creator:"+data[0]._creator);
+                    //console.log("Data_creator:"+data[0]._creator);
                     User.find({ _id: data[0]._creator}, function(err,data_usuario)
                     {
-                       if(err) console.log("Error:"+err);
+                       if(err) console.error("Error:"+err);
                        else
                        {
-                           response.send({puntuacion: data[0].puntuacion, dificultad: data[0].dificultad, descripcion: data[0].descripcion, camino: data[0].camino, user_propietario: data_usuario[0].username});
+                           response.send({puntuacion: data[0].puntuacion, dificultad: data[0].dificultad, descripcion: data[0].descripcion, camino: data[0].camino, user_propietario: data_usuario[0].local.username});
                        }
                     });
                 }
@@ -102,9 +102,9 @@ app.get('/mostrar_mapa_seleccionado',(request, response) => {
 
 
 app.get('/nuevo_camino',(request, response) => { 
-    console.log("Servidor:Guardando camino");
-    console.log("Usuario:"+request.query.usuario);
-    console.log("Puntos intermedios:"+request.query.puntos);
+    //console.log("Servidor:Guardando camino");
+    //console.log("Usuario:"+request.query.usuario);
+    //console.log("Puntos intermedios:"+request.query.puntos);
 
     const id = mongoose.Types.ObjectId(request.query.usuario);
 
@@ -119,15 +119,15 @@ app.get('/nuevo_camino',(request, response) => {
     });
     nuevo_mapa.save(function(err)
     {
-        if(err) return console.log(err);
-        console.log(`Guardado: ${nuevo_mapa}`);
+        if(err) return console.error(err);
+        //console.log(`Guardado: ${nuevo_mapa}`);
     }).then(() => {
         Mapa
         .findOne({nombre:request.query.nombre_mapa, dificultad: request.query.dificultad, puntuacion: request.query.puntuacion, descripcion: request.query.descripcion_mapa, _creator: id, camino: request.query.puntos})
         .populate('_creator')
         .exec(function(err,mapa){
-            if(err) return console.log(err);
-            console.log('Propietario del mapa: %s',mapa._creator);
+            if(err) return console.error(err);
+            //console.log('Propietario del mapa: %s',mapa._creator);
         }).then( () => {
             response.send({mensaje_respuesta_publicar: "Guardado con exito"});
         });            
@@ -159,20 +159,16 @@ app.post('/signup', passport.authenticate('local-signup', {
 }));
 
 app.get('/profile_login', isLoggedIn, function(req, res){
-	 console.log("Yendo a profile register:"+req.user._id);
-	 console.log("emaikkkkkk:"+req.user.local.username);
+
 	 res.send({message: "Usuario correcto", id_usuario: req.user._id, email: req.user.local.username});
-	//res.render('profile.ejs', { user: req.user });
 });
 
 app.get('/profile_register', isLoggedIn, function(req, res){
-	 console.log("Yendo a profile login:"+req.user._id);
 	 res.send({message: "Usuario registrado" , id_usuario: req.user._id, email: req.user.local.username});
-	//res.render('profile.ejs', { user: req.user });
 });
 
 function isLoggedIn(req, res, next) {
-    console.log("Req,isAuthenticated:"+req.isAuthenticated());
+    //console.log("Req,isAuthenticated:"+req.isAuthenticated());
 	if(req.isAuthenticated()){
 		return next();
 	}
@@ -181,15 +177,15 @@ function isLoggedIn(req, res, next) {
 }
 
 app.get('/filtrar', (request, response) => {
-  console.log("Filtro:"+request.query.filtro);
-  console.log("Filtro dificultad:"+request.query.dificultad);
+  //console.log("Filtro:"+request.query.filtro);
+  //console.log("Filtro dificultad:"+request.query.dificultad);
 //  odel.findOne({name: new RegExp('^'+name+'$', "i")}
-    console.log("Filtrando");
+    //console.log("Filtrando");
     if(!request.query.dificultad)
     {
           Mapa.find({ $or: [{ descripcion: new RegExp('\s*^.*\s*('+request.query.filtro+')+\s*.*\s*$', "i")}, { nombre: new RegExp('^.*('+request.query.filtro+')+.*$', "i")}]}, function(err, data) {
-             if(err) return console.log(err);
-             console.log("Caminos:"+data.length); 
+             if(err) return console.error(err);
+             //console.log("Caminos:"+data.length); 
              if(data.length > 0)
                 response.send({mapas:data, mensaje_respuesta_peticionsenderos: "Senderos encontrados"});
              else
@@ -200,8 +196,8 @@ app.get('/filtrar', (request, response) => {
     else
     {
           Mapa.find({ $or: [{ descripcion: new RegExp('\s*^.*\s*('+request.query.filtro+')+\s*.*\s*$', "i")}, { nombre: new RegExp('^.*('+request.query.filtro+')+.*$', "i")}], dificultad: request.query.dificultad }, function(err, data) {
-             if(err) return console.log(err);
-             console.log("Caminos:"+data.length); 
+             if(err) return console.error(err);
+             //console.log("Caminos:"+data.length); 
              if(data.length > 0)
                 response.send({mapas:data, mensaje_respuesta_peticionsenderos: "Senderos encontrados"});
              else
@@ -209,7 +205,13 @@ app.get('/filtrar', (request, response) => {
           });
     }   
 });
-// ---------------------------------------------------------------------------------------------------------------
+
+app.get('/logout', function(req, res){
+  req.logout();
+  //console.log("Req:"+req);
+  res.redirect('/');
+});
+// -------------------------------------- PUERTO Y HOST-------------------------------------------------------------------------
 
 app.listen(app.get('port'), () => {
     console.log(`Node app is running at localhost: ${app.get('port')}` );

@@ -19,8 +19,10 @@
 
         <!--<li><a data-scroll data-options="easing: easeOutQuart" href="#contact">Contact</a></li>-->
         <li id="generar_mapa"><a data-scroll data-options="easing: easeOutQuart" href="#contact">Publica tu sendero</a></li>
-        <li><a data-scroll data-options="easing: easeOutQuart" data-toggle="modal" data-target="#myModal">Login local</a></li>
-        <li><a data-scroll data-options="easing: easeOutQuart" data-toggle="modal" data-target="#myModal1">Register</a></li>
+        <li><a data-scroll data-options="easing: easeOutQuart" data-toggle="modal" data-target="#myModal" id="login_cabecera">Login</a></li>
+        <li><a data-scroll data-options="easing: easeOutQuart" data-toggle="modal" data-target="#myModal1" id="registro_cabecera">Register</a></li>
+        <li id="salir_app"><a href="/logout" data-scroll data-options="easing: easeOutQuart" style="display:none">Salir</a></li>
+        <li id="usuario_actual"><a href="/logout" data-scroll data-options="easing: easeOutQuart" style="display:none"></a></li>
         <!--<li><a data-scroll data-options="easing: easeOutQuart" data-toggle="modal" data-target="#myModal">Login Google</a></li>-->
         <!--<li><a data-scroll data-options="easing: easeOutQuart" data-toggle="modal" data-target="#myModal">Login Facebook</a></li>-->
         <!--<li><a data-scroll data-options="easing: easeOutQuart" data-toggle="modal" data-target="#myModal">Login Twitter</a></li>-->
@@ -44,7 +46,7 @@
 
 			<div class="modal-header">
 				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-				  <h4 class="modal-title" id="myModalLabel"></h4>
+				  <h4 class="modal-title" id="myModalLabel">Login</h4>
 			</div> <!-- /.modal-header -->
 
 			<div class="modal-body">
@@ -68,6 +70,8 @@
 							<input type="checkbox"> Remember me
 						</label>
 					</div> <!-- /.checkbox -->
+					<a href="" class="pull-right">Login con Facebook</a>
+				  <br>
 				</form>
 
 			</div> <!-- /.modal-body -->
