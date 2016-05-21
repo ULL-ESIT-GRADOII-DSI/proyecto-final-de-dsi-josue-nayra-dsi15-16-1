@@ -68,14 +68,20 @@ Sistema que permite automatizar tareas de desarrollo. Permite administrar y cont
 
 Herramienta que permite a los desarrolladores mantener su navegador web actualizado mientras realiza cambios en la configuración en diferentes ordenadores o sistemas operativos.
 
-* [Más información](https://www.browsersync.io/)
+[Más información](https://www.browsersync.io/)
 
 ### Expresiones regulares
 
 En este proyecto se han utilizado expresiones regulares para el filtro de búsqueda.
 El usuario podrá especificar la dificultad y alguna palabra clave con la desee realizar la búsqueda.
 
+### Passport
 
+Passport es un middleware de autenticación para Node.js. 
+Es extremadamente flexible y modular, se puede utilizar en cualquier aplicación web basada en Express. 
+Un conjunto completo de autenticación de apoyo utilizando un nombre de usuario y contraseña, Facebook, Twitter, y más.
+
+[Más información](http://passportjs.org/)
 
 --------
 

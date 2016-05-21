@@ -7,8 +7,8 @@
     let jshint = require('gulp-jshint');
     let jscs = require('gulp-jscs');
     let scsslint = require('gulp-sass-lint');
-    const browserSync = require('browser-sync').create();
-    var sass = require('gulp-sass');
+    let browserSync = require('browser-sync').create();
+    let sass = require('gulp-sass');
 
 //------------------------------------------------------------------------------------------
 // GULP para lint.

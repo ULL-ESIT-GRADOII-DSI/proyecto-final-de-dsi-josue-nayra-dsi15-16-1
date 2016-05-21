@@ -5,3 +5,10 @@
 { "Latitud": -17.764340909980401, "Longitud": 28.683732280267201, "Nombre": "Mapa3" }
 ]
 }
+{
+nombre:
+descripcion:
+camino: '[{"latitud": ,"longitud": }]'
+dificultad:
+puntuacion:
+}
