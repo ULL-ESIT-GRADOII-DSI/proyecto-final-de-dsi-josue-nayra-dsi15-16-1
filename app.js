@@ -103,9 +103,9 @@ app.get('/mostrar_mapa_seleccionado',(request, response) => {
 
 
 app.get('/nuevo_camino',(request, response) => { 
-    //console.log("Servidor:Guardando camino");
-    //console.log("Usuario:"+request.query.usuario);
-    //console.log("Puntos intermedios:"+request.query.puntos);
+    console.log("Servidor:Guardando camino");
+    console.log("Usuario:"+request.query.usuario);
+    console.log("Puntos intermedios:"+request.query.puntos);
 
     const id = mongoose.Types.ObjectId(request.query.usuario);
 
@@ -121,14 +121,14 @@ app.get('/nuevo_camino',(request, response) => {
     nuevo_mapa.save(function(err)
     {
         if(err) return console.error(err);
-        //console.log(`Guardado: ${nuevo_mapa}`);
+        console.log(`Guardado: ${nuevo_mapa}`);
     }).then(() => {
         Mapa
         .findOne({nombre:request.query.nombre_mapa, dificultad: request.query.dificultad, puntuacion: request.query.puntuacion, descripcion: request.query.descripcion_mapa, _creator: id, camino: request.query.puntos})
         .populate('_creator')
         .exec(function(err,mapa){
             if(err) return console.error(err);
-            //console.log('Propietario del mapa: %s',mapa._creator);
+            console.log('Propietario del mapa: %s',mapa._creator);
         }).then( () => {
             response.send({mensaje_respuesta_publicar: "Guardado con exito"});
         });            

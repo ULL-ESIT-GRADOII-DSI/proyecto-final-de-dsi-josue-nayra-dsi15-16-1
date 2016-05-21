@@ -227,11 +227,14 @@ $(document).ready(() => {
         else
         {
           //console.log("Nombre_mapa:"+$("#nombre_mapa").val());
-          if(!$("#nombre_mapa").val())
+          if(!$("#nombre_mapa").val() || $("#puntuacion_nuevomapa").val() =="Puntue el sendero" || $("#dificultad_nuevomapa").val() == "Dificultad del sendero")
           {
             $("#mensaje_aviso_publicar").fadeIn();
-            $("#mensaje_aviso_publicar").html("El sendero debe tener un nombre");
+            $("#mensaje_aviso_publicar").html("Rellene como minimo los campos en rojo");
             $("#nombre_mapa").css("border-color","red");
+            $("#puntuacion_nuevomapa").css("border-color","red");
+            $("#dificultad_nuevomapa").css("border-color","red");
+
             $("#nombre_mapa").focusout(function()
             {
                 $("#mensaje_aviso_publicar").fadeOut();
