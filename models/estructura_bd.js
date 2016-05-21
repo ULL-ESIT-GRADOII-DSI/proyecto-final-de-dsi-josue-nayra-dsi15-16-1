@@ -1,5 +1,5 @@
     "use strict";
-    // console.log("Configurando MongoDB...");
+
     //Conexión con MongoDB
     
     const mongoose = require('mongoose');
@@ -11,12 +11,6 @@
     	local: {
     		username: String,
     		password: String
-    	},
-    	facebook: {
-    		id: String,
-    		token: String,
-    		email: String,
-    		name: String
     	}
     });
 
@@ -40,18 +34,15 @@
     const User = mongoose.model("User", UserSchema);
     const Mapa = mongoose.model("Mapa",MapaSchema);
     
-    
-    User.remove({}).then(() => {
-        Mapa.remove({}).then(() => {
+
                //Usuario Josue de Prueba
-            //   console.log("Usuario Josue de prueba");
+
                let usuario_prueba1 = new User(
                {
                    local:{
                         username: "JosueTC94",
                         password: "x"   
-                   },
-                   facebook: {}
+                   }
                });
                usuario_prueba1.save(function(err)
                {
@@ -92,8 +83,7 @@
                    local: {
                         username: "Nayra",
                         password: "y"
-                   },
-                   facebook:{}
+                   }
                });
                usuario_prueba2.save(function(err)
                {
@@ -104,8 +94,6 @@
                     {
                         nombre: "La Caldera",
                         descripcion: "Bonito sendero",
-                        //origen: {Latitud: "17.123445", Longitud: "80.1233445"},
-                        //destino: {Latitud: "17.123445", Longitud: "80.1233445"},
                         camino: '[{"latitud":28.713205302552225,"longitud":-17.80810546875},{"latitud":28.69902011148479,"longitud":-17.848663330078125},{"latitud":28.66890107414433,"longitud":-17.85003662109375},{"latitud":28.64479960910591,"longitud":-17.85003662109375},{"latitud":28.619487109380707,"longitud":-17.856903076171875},{"latitud":28.613459424004418,"longitud":-17.8692626953125},{"latitud":28.60622574490014,"longitud":-17.88848876953125}]',
                         dificultad: "media",
                         puntuacion: 9,
@@ -129,7 +117,6 @@
                     });
                 });
                 //--------------------------------------------------------------------------
-            });
-        });
+ 
     
     module.exports = { UserSchema: UserSchema, Mapa: Mapa};

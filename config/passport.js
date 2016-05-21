@@ -7,13 +7,13 @@ const bcrypt = require('bcrypt');
 
 const Estructura = require('../models/estructura_bd.js');
 const UserSchema = Estructura.UserSchema;
-UserSchema.methods.generateHash = function(password){
-	return bcrypt.hashSync(password, bcrypt.genSaltSync(9));
-}
+// UserSchema.methods.generateHash = function(password){
+// 	return bcrypt.hashSync(password, bcrypt.genSaltSync(9));
+// }
 
-UserSchema.methods.validPassword = function(password){
-	return bcrypt.compareSync(password, this.local.password);
-}
+// UserSchema.methods.validPassword = function(password){
+// 	return bcrypt.compareSync(password, this.local.password);
+// }
 const User = mongoose.model("User", UserSchema);
 
 //const configAuth = require('./auth');
@@ -38,15 +38,15 @@ module.exports = function(passport) {
 		passReqToCallback: true
 	},
 	function(req, email, password, done){
-		console.log("Entre en passport-register");
-		console.log("Passport. Register-local:"+email);
-		console.log("Passport. Register-local:"+password);
+		//console.log("Entre en passport-register");
+		//console.log("Passport. Register-local:"+email);
+		//console.log("Passport. Register-local:"+password);
 		process.nextTick(function(){
 			User.findOne({'local.username': email}, function(err, user){
 				if(err)
 					return done(err);
 				if(user){
-					return done(null, false, req.flash('signupMessage', 'Correo en uso'));
+					return done(null, false, req.flash('signupMessage', 'Usuario no disponible'));
 				} else {
 					var newUser = new User();
 					newUser.local.username = email;
@@ -55,7 +55,7 @@ module.exports = function(passport) {
 					newUser.save(function(err){
 						if(err)
 							throw err;
-						console.log("Id del user:"+newUser._id);
+						//console.log("Id del user:"+newUser._id);
 						return done(null, newUser);
 					})
 				}
@@ -70,28 +70,27 @@ module.exports = function(passport) {
 			passReqToCallback: true
 		},
 		function(req, email, password, done){
-			console.log("Entre en passport-login");
-			console.log("Passport. Login-local:"+email);
-			console.log("Passport. Login-loca:"+password);
+			//console.log("Entre en passport-login");
+			//console.log("Passport. Login-local:"+email);
+			//console.log("Passport. Login-loca:"+password);
 			process.nextTick(function(){
 				User.findOne({ 'local.username': email}, function(err, user){
 					if(err)
 					{
-						console.log("Error:"+err);
+						//console.log("Error:"+err);
 						return done(err);
 					}
 					if(!user)
 					{
-						console.log("No se ha encontrado usuario");
-						return done(null, false, req.flash('loginMessage', 'No User found'));
+						//console.log("No se ha encontrado usuario");
+						return done(null, false, req.flash('loginMessage', 'Usuario no encontrado'));
 					}
 					
-					//!bcrypt.compareSync(password, user.local.password)
 					if(password != user.local.password){
-						console.log("Password no valida");
-						console.log("Password:"+password);
-						console.log("Password:"+user.local.password);
-						return done(null, false, req.flash('loginMessage', 'invalid password'));
+						//console.log("Password no valida");
+						//console.log("Password:"+password);
+						//console.log("Password:"+user.local.password);
+						return done(null, false, req.flash('loginMessage', 'Password no valida'));
 					}
 					return done(null, user);
 
@@ -99,39 +98,4 @@ module.exports = function(passport) {
 			});
 		}
 	));
-
-
-	// passport.use(new FacebookStrategy({
-	//     clientID: configAuth.facebookAuth.clientID,
-	//     clientSecret: configAuth.facebookAuth.clientSecret,
-	//     callbackURL: configAuth.facebookAuth.callbackURL
-	//   },
-	//   function(accessToken, refreshToken, profile, done) {
-	//     	process.nextTick(function(){
-	//     		User.findOne({'facebook.id': profile.id}, function(err, user){
-	//     			if(err)
-	//     				return done(err);
-	//     			if(user)
-	//     				return done(null, user);
-	//     			else {
-	//     				var newUser = new User();
-	//     				newUser.facebook.id = profile.id;
-	//     				newUser.facebook.token = accessToken;
-	//     				newUser.facebook.name = profile.name.givenName + ' ' + profile.name.familyName;
-	//     				newUser.facebook.email = profile.emails[0].value;
-
-	//     				newUser.save(function(err){
-	//     					if(err)
-	//     						throw err;
-	//     					return done(null, newUser);
-	//     				})
-	//     				console.log(profile);
-	//     			}
-	//     		});
-	//     	});
-	//     }
-
-	// ));
-
-
 };

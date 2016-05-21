@@ -81,6 +81,8 @@ Passport es un middleware de autenticación para Node.js.
 Es extremadamente flexible y modular, se puede utilizar en cualquier aplicación web basada en Express. 
 Un conjunto completo de autenticación de apoyo utilizando un nombre de usuario y contraseña, Facebook, Twitter, y más.
 
+En este proyecto se ha utilizado la dependencia "passport local" para garantizar un proceso de autenticación local.
+
 [Más información](http://passportjs.org/)
 
 --------
