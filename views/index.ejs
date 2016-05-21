@@ -201,26 +201,36 @@
         <div class="row">
             <h2 class="heading wow fadeInUp" data-wow-duration="0.8s" data-wow-delay="0.8s">Rutas</h2>
         </div>
+        <div class="col-md-12">
+            <div class="col-md-11"></div>
+            <div class="col-md-1">
+              <button id="aplicar_filtro" type="submit" class="btn main-btn wow bounceIn pull-right" data-wow-duration="1s" data-wow-delay="1s">Filtrar</button>
+            </div>
+        </div>
         <div class="row">
-            <div class="col-md-2"></div>
-            <div class="col-md-10">
-              <div class="col-md-5">
-                <div class="btn-group" role="group" aria-label="...">
-                  <button type="button" class="btn btn-default" id="facil">Fácil</button>
-                  <button type="button" class="btn btn-default" id="media">Media</button>
-                  <button type="button" class="btn btn-default" id="dificil">Difícil</button>
-                </div>
-              </div>
-              <div class="col-md-5">
-              <form class="form-search">
-                  <div class="input-append">
-                      <input type="text" id="filtro">
-                      <button type="submit" class="btn" id="filtrar">Search</button>
+            <div class="col-md-12">
+              <div id="seccion_filtro" style="display:none">
+                <div class="col-md-6">
+                  Dificultad:
+                  <div class="btn-group" id="dificultad_filtro" style="margin-left:5px;" role="group" aria-label="...">
+                    <button type="button" class="btn btn-default" value="facil">Facil</button>
+                    <button type="button" class="btn btn-default" value="media">Media</button>
+                    <button type="button" class="btn btn-default" value="dificil">Dificil</button>
                   </div>
-              </form>
+                </div>
+                <div class="col-md-6">
+                <form class="form-search">
+                    <div class="input-append">
+                        Buscar por:
+                        <input type="text" id="filtro">
+                        <button id="filtrar" type="submit" class="btn btn-success bounceIn pull-right" data-wow-duration="1s" data-wow-delay="1s">Buscar</button>
+                    </div>
+                </form>
+                </div>
               </div>
             </div>
         </div>
+        <h4 id="respuesta_mostrandosenderos" style="display:none" class="pull-right"></h4>
         <hr>
         <div class="row">
           <div id="nuestros_senderos"></div>

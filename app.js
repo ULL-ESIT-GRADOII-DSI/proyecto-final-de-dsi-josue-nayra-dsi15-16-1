@@ -32,6 +32,7 @@ const MapaSchema = Estructura.Mapa;
 console.log("Estructura:"+Estructura);
 console.log("User:"+UserSchema);
 console.log("Mapa:"+MapaSchema);
+const User = mongoose.model("User", UserSchema);
 const Mapa = mongoose.model("Mapa", MapaSchema);
 
 require('./config/passport')(passport);
@@ -166,7 +167,7 @@ app.get('/profile_login', isLoggedIn, function(req, res){
 
 app.get('/profile_register', isLoggedIn, function(req, res){
 	 console.log("Yendo a profile login:"+req.user._id);
-	 res.send({message: "Usuario registrado" , id_usuario: req.user._id, email: req.user.username});
+	 res.send({message: "Usuario registrado" , id_usuario: req.user._id, email: req.user.local.username});
 	//res.render('profile.ejs', { user: req.user });
 });
 
@@ -179,13 +180,35 @@ function isLoggedIn(req, res, next) {
 	res.redirect('/login');
 }
 
-// app.get('/filtrar', (request, response) => {
-//   console.log("Filtro:"+;
- 
-//   Mapa.find({ $or: [{ descripcion: /.*(request.query.filtro)+.*$/}, { nombre: /.*(request.query.filtro)+.*$/}] }, function(err, data) {
-       
-//   });
-// });
+app.get('/filtrar', (request, response) => {
+  console.log("Filtro:"+request.query.filtro);
+  console.log("Filtro dificultad:"+request.query.dificultad);
+//  odel.findOne({name: new RegExp('^'+name+'$', "i")}
+    console.log("Filtrando");
+    if(!request.query.dificultad)
+    {
+          Mapa.find({ $or: [{ descripcion: new RegExp('\s*^.*\s*('+request.query.filtro+')+\s*.*\s*$', "i")}, { nombre: new RegExp('^.*('+request.query.filtro+')+.*$', "i")}]}, function(err, data) {
+             if(err) return console.log(err);
+             console.log("Caminos:"+data.length); 
+             if(data.length > 0)
+                response.send({mapas:data, mensaje_respuesta_peticionsenderos: "Senderos encontrados"});
+             else
+                response.send({mensaje_respuesta_peticionsenderos: "No se han encontrado senderos"});
+              
+          });
+    }
+    else
+    {
+          Mapa.find({ $or: [{ descripcion: new RegExp('\s*^.*\s*('+request.query.filtro+')+\s*.*\s*$', "i")}, { nombre: new RegExp('^.*('+request.query.filtro+')+.*$', "i")}], dificultad: request.query.dificultad }, function(err, data) {
+             if(err) return console.log(err);
+             console.log("Caminos:"+data.length); 
+             if(data.length > 0)
+                response.send({mapas:data, mensaje_respuesta_peticionsenderos: "Senderos encontrados"});
+             else
+                response.send({mensaje_respuesta_peticionsenderos: "No se han encontrado senderos"});
+          });
+    }   
+});
 // ---------------------------------------------------------------------------------------------------------------
 
 app.listen(app.get('port'), () => {

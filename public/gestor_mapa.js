@@ -10,6 +10,7 @@ var flightPlanCoordinates = [];
 var flightPath;
 var puntos_intermedios = [];
 var user_actual;
+var boton_dificultad;
 
 const senderosTemplate = `
     <% _.each(senderos, (sendero) => { %>
@@ -89,8 +90,14 @@ const mostrando_senderos = (datos) =>
 {
     console.log("Mapas:"+datos.mapas);
     console.log("Mensaje:"+datos.mensaje_respuesta_peticionsenderos);
-    $("#nuestros_senderos").html(_.template(senderosTemplate, {senderos: datos.mapas}));
+    if(datos.mensaje_respuesta_peticionsenderos == "No se han encontrado senderos")
+    {
+      $("#respuesta_mostrandosenderos").fadeIn();
+      $("#respuesta_mostrandosenderos").html(datos.mensaje_respuesta_peticionsenderos);  
+    }
     
+    $("#nuestros_senderos").html(_.template(senderosTemplate, {senderos: datos.mapas}));
+
     $('p.senderos').each( (_,y) => {
       $(y).click( () => { 
         $("#contact").show();
@@ -168,7 +175,7 @@ $(document).ready(() => {
         
     //Hacemos la lectura del JSON
     //Fichero geoJSON 
-    
+          
     generar_mapa();
     
     $.get("/mostrar_caminos", mostrando_senderos, 'json');
@@ -242,7 +249,7 @@ $(document).ready(() => {
                 //var caminando_baby = JSON.stringify(markers);
                 console.log("User_actual:"+user_actual);
                 
-                $.get("/nuevo_camino",{usuario: user_actual, dificultad: $("#dificultad_nuevomapa").val(), puntuacion: $("#puntuacion_nuevomapa").val(),nombre_mapa: $("#nombre_mapa").val(), descripcion_mapa: $("#descripcion_mapa").val(), puntos: puntos_sendero}, data_respuesta => {
+                $.get("/nuevo_camino",{usuario: user_actual, dificultad: ($("#dificultad_nuevomapa").val()).toLowerCase(), puntuacion: $("#puntuacion_nuevomapa").val(),nombre_mapa: $("#nombre_mapa").val(), descripcion_mapa: $("#descripcion_mapa").val(), puntos: puntos_sendero}, data_respuesta => {
                     console.log("Data_respuesta:"+data_respuesta.mensaje_respuesta_publicar);
                     $("#mensaje_aviso_publicar").fadeIn();
                     $("#mensaje_aviso_publicar").html(data_respuesta.mensaje_respuesta_publicar);
@@ -376,11 +383,46 @@ $(document).ready(() => {
             				.removeAttr("data-dismiss");
                             
             });
-      //Formulario de búsqueda
-      // $("#filtrar").click(function(event)
-      // {
-      //     $.get("/filtrar", { filtro: $("#filtro").val() }, mostrando_senderos, 'json');
-      // });
+            
+      $("#aplicar_filtro").click(function()
+      {
+          $("#aplicar_filtro").hide();
+          setTimeout(function()
+          {
+            $("#seccion_filtro").fadeIn();
+          },
+          450);
+      });
+      
+      // Formulario de búsqueda
+      $(".btn-group > button").click(function(event){
+          event.preventDefault();
+          console.log("Group button clicked:"+$(this).val());
+          boton_dificultad = $(this).val();
+          $(this).addClass("active").siblings().removeClass("active");
+      });
+      
+      $("#filtrar").click(function(event)
+      {
+        event.preventDefault();
+        $("#respuesta_mostrandosenderos").fadeOut();  
+        
+        if(boton_dificultad == null)
+        {
+            //console.log("Sin dificultad");
+            $.get("/filtrar", { filtro: $("#filtro").val() }, mostrando_senderos, 'json'); 
+            boton_dificultad = null;
+        }
+        else
+        {
+            //console.log("Con dificultad");
+            console.log("Dificultad yeah baby:"+boton_dificultad);
+            $.get("/filtrar", { filtro: $("#filtro").val(), dificultad: boton_dificultad }, mostrando_senderos, 'json');
+            boton_dificultad = null;
+        }
+        $(".btn-group > button").removeClass("active");
+        $("#filtro").val(" ");
+      });
 });
 
 })();
