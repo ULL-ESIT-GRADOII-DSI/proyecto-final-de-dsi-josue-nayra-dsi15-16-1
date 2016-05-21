@@ -1,16 +1,23 @@
     "use strict";
     console.log("Configurando MongoDB...");
     //Conexión con MongoDB
-    const util = require('util');
-    const mongoose = require('mongoose');
     
-    mongoose.connect('mongodb://localhost/Practica10');
+    const mongoose = require('mongoose');
+    //mongoose.connect('mongodb://localhost/Practica10');
     
     const Schema = mongoose.Schema;
     
-    const UserSchema = new Schema({
-        username: String,
-        password: String
+    var UserSchema = new Schema({
+    	local: {
+    		username: String,
+    		password: String
+    	},
+    	facebook: {
+    		id: String,
+    		token: String,
+    		email: String,
+    		name: String
+    	}
     });
 
     const MapaSchema = new Schema({
@@ -32,9 +39,9 @@
     
     const User = mongoose.model("User", UserSchema);
     const Mapa = mongoose.model("Mapa",MapaSchema);
-    //const Punto = mongoose.model("Punto",PuntoSchema);
     
-    User.remove({}).then(() => {
+    
+    /*User.remove({}).then(() => {
         Mapa.remove({}).then(() => {
                //Usuario Josue de Prueba
                console.log("Usuario Josue de prueba");
@@ -118,5 +125,6 @@
                 //--------------------------------------------------------------------------
             });
         });
+    */
     
-    module.exports = { User: User, Mapa: Mapa};
+    module.exports = { UserSchema: UserSchema, Mapa: Mapa};
