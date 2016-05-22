@@ -7,7 +7,7 @@
   },
   "repository": {
     "type": "git",
-    "url": ""
+    "url": "https://github.com/ULL-ESIT-GRADOII-DSI/proyecto-final-de-dsi-josue-nayra-dsi15-16-1.git"
   },
   "keywords": [
     "csv"
@@ -16,7 +16,7 @@
   "contributors": [],
   "license": "ISC",
   "bugs": {
-    "url": "labels/bug"
+    "url": "https://github.com/ULL-ESIT-GRADOII-DSI/proyecto-final-de-dsi-josue-nayra-dsi15-16-1/labels/bug"
   },
   "homepage": "",
   "dependencies": {
@@ -44,6 +44,7 @@
     "lint": "^1.1.2",
     "mongoose": "^4.4.12",
     "morgan": "^1.7.0",
+    "nodemon": "^1.9.2",
     "passport": "^0.3.2",
     "passport-google-oauth": "^1.0.0",
     "passport-local": "^1.0.0",
