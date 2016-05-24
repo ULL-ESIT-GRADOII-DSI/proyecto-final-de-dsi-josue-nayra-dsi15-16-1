@@ -8,7 +8,13 @@ Cada usuario puede marcar los distintos puntos que conforman su ruta o sendero, 
 
 --------
 
-## Despliegue
+## Despliegue (imágenes)
+
+![Portada](portada.png)
+
+![Filtro y rutas](filtro.png )
+
+![Rutas](rutas.png) 
 
 
 --------
@@ -101,8 +107,8 @@ En este proyecto se ha utilizado la dependencia "passport local" para garantizar
 
 ### Despliegue de la práctica
 
-* [Cloud 9]()
-* [Workspace]()
+* [Despliegue Cloud 9](https://proyecto-final-dsi-josue-nayra-alu0100406122.c9users.io/?_c9_id=livepreview0&_c9_host=https://ide.c9.io)
+* [Workspace](https://ide.c9.io/alu0100406122/proyecto-final-dsi-josue-nayra)
 
 --------
 
