@@ -34,6 +34,7 @@ const mostrar_mapa = (datos) =>
   $.get('/mostrar_mapa_seleccionado',{ nombre_mapa: datos}, data_respuesta => {
       var puntos = JSON.parse(data_respuesta.camino[0]);
       
+      $("#marcadores_mapa").hide();
       $("#guardar_camino").css("display","none");
       $("#publicar").css("display","none");
       $("#mostrar").fadeIn();
@@ -47,6 +48,8 @@ const mostrar_mapa = (datos) =>
       $("#dificultad_mostrarmapa").html(data_respuesta.dificultad);
       $("#puntuacion_mostrarmapa").html(data_respuesta.puntuacion);
       $("#descripcion_mostrarmapa").html(data_respuesta.descripcion);
+      $("#seccion_mostrarpublicar").html(datos);
+      
       generar_mapa();
       
       //Limpiar marcadores y polyline
@@ -199,6 +202,8 @@ $(document).ready(() => {
         //console.log("Fly:"+flightPlanCoordinates);
         puntos_intermedios.length = 0;
         generar_mapa();
+        $("#seccion_mostrarpublicar").html("Publica tu sendero");
+        $("#marcadores_mapa").fadeIn();
     });
     
     $("#hacia_mywork").click(function(event)

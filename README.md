@@ -12,10 +12,11 @@ Cada usuario puede marcar los distintos puntos que conforman su ruta o sendero, 
 
 ![Portada](portada.png)
 
-![Filtro y rutas](filtro.png )
+![Filtro y rutas](filtro.png)
 
-![Rutas](rutas.png) 
+![Publicar sendero](publicar.png)
 
+![Mostrar sendero](mostrar.png)
 
 --------
 
@@ -101,8 +102,8 @@ En este proyecto se ha utilizado la dependencia "passport local" para garantizar
 
 ### Repositorios en github.io
 
-* [Repositorio de la práctica en la organización](https://github.com/ULL-ESIT-GRADOII-DSI/proyecto-final-Josue-Nayra)
-* [Fork del repositorio](https://github.com/alu0100406122/proyecto-final-Josue-Nayra)
+* [Repositorio de la práctica en la organización](https://github.com/ULL-ESIT-GRADOII-DSI/proyecto-final-de-dsi-josue-nayra-dsi15-16-1)
+* [Fork del repositorio](https://github.com/alu0100406122/proyecto-final-de-dsi-josue-nayra-dsi15-16-1)
 
 
 ### Despliegue de la práctica
